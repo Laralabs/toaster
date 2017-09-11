@@ -8,6 +8,7 @@ sudo: false
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
+  - composer dump-autoload
 
 script:
   - vendor/bin/phpunit
