@@ -2,8 +2,8 @@
 
 namespace Laralabs\Toaster\Tests;
 
-use \Mockery as Mockery;
 use Laralabs\Toaster\Toaster;
+use Mockery as Mockery;
 
 class ToasterTest extends TestCase
 {
@@ -133,7 +133,7 @@ class ToasterTest extends TestCase
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
-        foreach($this->toaster->messages as $toast) {
+        foreach ($this->toaster->messages as $toast) {
             $this->assertEquals($expires, $toast->expires);
             $expires = $expires + $this->interval;
         }
@@ -150,10 +150,10 @@ class ToasterTest extends TestCase
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
         $counter = 1;
-        foreach($this->toaster->messages as $toast) {
-            if($counter == 2) {
+        foreach ($this->toaster->messages as $toast) {
+            if ($counter == 2) {
                 $this->assertEquals(9000, $toast->expires);
-            }else{
+            } else {
                 $this->assertEquals($expires, $toast->expires);
             }
             $expires = $expires + $this->interval;
@@ -169,7 +169,7 @@ class ToasterTest extends TestCase
 
         $this->assertCount(2, $this->toaster->messages);
 
-        $validJson = "window.toaster = window.toaster || {};toaster.data = {\"lifetime\":2000,\"maxToasts\":10,\"messages\":[{\"message\":\"Beans on Toast\",\"theme\":\"success\",\"closeBtn\":false,\"title\":\"\",\"expires\":2000},{\"message\":\"Egg on Toast\",\"theme\":\"info\",\"closeBtn\":false,\"title\":\"\",\"expires\":2500}],\"position\":\"top right\"}";
+        $validJson = 'window.toaster = window.toaster || {};toaster.data = {"lifetime":2000,"maxToasts":10,"messages":[{"message":"Beans on Toast","theme":"success","closeBtn":false,"title":"","expires":2000},{"message":"Egg on Toast","theme":"info","closeBtn":false,"title":"","expires":2500}],"position":"top right"}';
         $this->assertEquals($validJson, $this->toaster->json);
     }
 
@@ -177,7 +177,7 @@ class ToasterTest extends TestCase
     public function it_displays_success_toast()
     {
         $this->toaster->add('Success on Toast')->success();
-        
+
         $toast = $this->toaster->messages[0];
 
         $this->assertEquals('Success on Toast', $toast->message);
@@ -288,5 +288,4 @@ class ToasterTest extends TestCase
     {
         Mockery::close();
     }
-
 }

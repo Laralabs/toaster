@@ -52,7 +52,8 @@ class Toast implements \ArrayAccess
     /**
      * Update the attributes.
      *
-     * @param  array $attributes
+     * @param array $attributes
+     *
      * @return $this
      */
     public function update($attributes = [])
@@ -66,11 +67,11 @@ class Toast implements \ArrayAccess
         return $this;
     }
 
-
     /**
      * Whether the given offset exists.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -81,7 +82,8 @@ class Toast implements \ArrayAccess
     /**
      * Fetch the offset.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -92,7 +94,8 @@ class Toast implements \ArrayAccess
     /**
      * Assign the offset.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -103,7 +106,8 @@ class Toast implements \ArrayAccess
     /**
      * Unset the offset.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return void
      */
     public function offsetUnset($offset)
