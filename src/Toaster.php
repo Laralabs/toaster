@@ -2,13 +2,12 @@
 
 namespace Laralabs\Toaster;
 
-use Laralabs\Toaster\Facades\ToasterFacade;
 use Laralabs\Toaster\Interfaces\SessionStore;
 
 class Toaster
 {
     /**
-     * Session Store
+     * Session Store.
      *
      * @var SessionStore
      */
@@ -114,6 +113,7 @@ class Toaster
      * Set message title.
      *
      * @param $value
+     *
      * @return Toaster
      */
     public function title($value)
@@ -125,13 +125,14 @@ class Toaster
      * Set message expiry time.
      *
      * @param $value
+     *
      * @return Toaster
      */
     public function expires($value)
     {
         if (is_int($value)) {
             return $this->updateLastMessage(['expires' => $value]);
-        }else{
+        } else {
             abort(500, 'Argument passed to expires() must be a valid integer');
         }
     }
@@ -139,26 +140,27 @@ class Toaster
     /**
      * Add a message to the toaster.
      *
-     * @param  string|null $message
-     * @param  boolean|false $closeBtn
-     * @param  string $theme
-     * @param  string $title
-     * @param  string|null $expires
+     * @param string|null $message
+     * @param bool|false  $closeBtn
+     * @param string      $theme
+     * @param string      $title
+     * @param string|null $expires
+     *
      * @return $this
      */
     public function add($message = null, $theme = 'info', $closeBtn = false, $title = '', $expires = null)
     {
         // If no message was provided, we should update
         // the most recently added message.
-        if (! $message) {
+        if (!$message) {
             if ($this->messages->count() > 0) {
                 return $this->updateLastMessage(compact('theme', 'closeBtn', 'title', 'expires'));
-            }else{
+            } else {
                 abort(500, 'Provide a message to the add() function before attempting to modify it');
             }
         }
 
-        if (! $message instanceof Toast) {
+        if (!$message instanceof Toast) {
             $message = new Toast(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
         }
 
@@ -170,14 +172,15 @@ class Toaster
     /**
      * Modify the most recently added message.
      *
-     * @param  array $overrides
+     * @param array $overrides
+     *
      * @return $this
      */
     protected function updateLastMessage($overrides = [])
     {
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);
-        }else{
+        } else {
             abort(500, 'Use the add() function to add a message before attempting to modify it');
         }
 
@@ -185,7 +188,7 @@ class Toaster
     }
 
     /**
-     * Flash messages to session and bind them to the view
+     * Flash messages to session and bind them to the view.
      */
     public function toast()
     {
@@ -195,11 +198,11 @@ class Toaster
 
         $this->json = $this->converter->put([
             'data' => [
-                'lifetime' => $this->lifetime,
+                'lifetime'  => $this->lifetime,
                 'maxToasts' => $this->limit,
-                'messages' => $this->messages->toArray(),
-                'position' => $this->position
-            ]
+                'messages'  => $this->messages->toArray(),
+                'position'  => $this->position,
+            ],
         ]);
 
         return $this;
@@ -218,7 +221,7 @@ class Toaster
     }
 
     /**
-     * Set toast expiry time values
+     * Set toast expiry time values.
      *
      * @return $this
      */

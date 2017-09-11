@@ -2,9 +2,7 @@
 
 namespace Laralabs\Toaster;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Laralabs\Toaster\ToasterViewBinder;
 
 class ToasterServiceProvider extends ServiceProvider
 {
@@ -15,11 +13,11 @@ class ToasterServiceProvider extends ServiceProvider
             'Laralabs\Toaster\LaravelSessionStore'
         );
 
-        $this->app->singleton('toaster', function() {
+        $this->app->singleton('toaster', function () {
             return $this->app->make('Laralabs\Toaster\Toaster');
         });
 
-        $this->app->singleton('toasterConverter', function($app) {
+        $this->app->singleton('toasterConverter', function ($app) {
             $view = config('toaster.bind_js_vars_to_this_view');
             $namespace = config('toaster.js_namespace');
 
@@ -29,14 +27,14 @@ class ToasterServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/toaster.php', 'toaster'
+            __DIR__.'/../config/toaster.php', 'toaster'
         );
     }
 
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/toaster.php'  =>  config_path('toaster.php')
+            __DIR__.'/../config/toaster.php'  => config_path('toaster.php'),
         ], 'config');
     }
 }
