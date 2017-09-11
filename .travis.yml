@@ -1,5 +1,3 @@
-os: osx
-
 language: php
 
 php:
@@ -9,8 +7,7 @@ php:
 sudo: false
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source
-  - composer dump-autoload
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - vendor/bin/phpunit
+  - $TRAVIS_BUILD_DIR/vendor/bin/phpunit
