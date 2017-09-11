@@ -5,26 +5,48 @@ namespace Laralabs\Toaster\Tests;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     /**
-     * The base URL to use while testing the application.
-     *
-     * @var string
+     * @var
      */
-    protected $baseUrl = 'http://localhost';
+    protected $session;
 
     /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
+     * @var
      */
-    public function createApplication()
+    protected $toaster;
+
+    /**
+     * @var
+     */
+    protected $converter;
+
+    /**
+     * @var
+     */
+    public $lifetime;
+
+    /**
+     * @var
+     */
+    public $interval;
+
+    public function setUp()
     {
-        $app = require __DIR__.'/../../../../bootstrap/app.php';
+        parent::setUp();
 
-        $app->make(Kernel::class)->bootstrap();
+        $this->session = Mockery::spy('Laralabs\Toaster\Interfaces\SessionStore');
 
-        return $app;
+        $this->toaster = new Toaster($this->session);
+        $this->converter = app('toasterConverter');
+
+        $this->lifetime = config('toaster.toast_lifetime');
+        $this->interval = config('toaster.toast_interval');
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return ['Laralabs\Toaster\ToasterServiceProvider'];
     }
 }

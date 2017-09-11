@@ -13,10 +13,12 @@
     "php": ">=7.0",
     "illuminate/support": "5.4.*|5.5.*",
     "illuminate/database": "5.4.*|5.5.*",
-    "illuminate/contracts": "5.4.*|5.5.*"
+    "illuminate/contracts": "5.4.*|5.5.*",
+    "illuminate/session": "5.4.*|5.5.*"
   },
   "require-dev": {
     "mockery/mockery": "dev-master",
+    "orchestra/testbench": "~3.5",
     "phpunit/phpunit": "^6.1"
   },
   "autoload": {
