@@ -2,6 +2,7 @@
     <img src="http://docs.laralabs.uk/toaster/images/toaster_logo_text.png" height="253px" width="236px" />
 </p>
 <p align="center">
+<a href="https://travis-ci.org/Laralabs/toaster"><img src="https://travis-ci.org/Laralabs/toaster.svg?branch=master" alt="Build Status"></a>
 <a href="https://styleci.io/repos/103109905"><img src="https://styleci.io/repos/103109905/shield?branch=master" alt="StyleCI"></a>
 <img src="https://scrutinizer-ci.com/g/Laralabs/toaster/badges/quality-score.png?b=master" alt="ScrutinizerCI">
 </p>

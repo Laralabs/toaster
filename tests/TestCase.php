@@ -33,7 +33,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        $this->session = Mockery::spy('Laralabs\Toaster\Interfaces\SessionStore');
+        $this->session = \Mockery::spy('Laralabs\Toaster\Interfaces\SessionStore');
 
         $this->toaster = new Toaster($this->session);
         $this->converter = app('toasterConverter');

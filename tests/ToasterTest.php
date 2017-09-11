@@ -3,7 +3,6 @@
 namespace Laralabs\Toaster\Tests;
 
 use Laralabs\Toaster\Toaster;
-use Mockery as Mockery;
 
 class ToasterTest extends TestCase
 {
@@ -248,6 +247,6 @@ class ToasterTest extends TestCase
 
     public function tearDown()
     {
-        Mockery::close();
+        \Mockery::close();
     }
 }
