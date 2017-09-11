@@ -12,7 +12,7 @@ The toaster package for Laravel provides a quick 'n' easy method for creating to
 
 Full documentation can be found at the link below: 
 
-[Toaster Documentation](https://docs.laralabs.uk/toaster)
+[Toaster Documentation](http://docs.laralabs.uk/toaster)
 
 ## Support
 Please raise an issue on GitHub if there is a problem.
