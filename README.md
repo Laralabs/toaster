@@ -2,6 +2,8 @@
     <img src="http://docs.laralabs.uk/toaster/images/toaster_logo_text.png" height="253px" width="236px" />
 </p>
 <p align="center">
+<a href="https://styleci.io/repos/103109905"><img src="https://styleci.io/repos/103109905/shield?branch=master" alt="StyleCI"></a>
+<img src="https://scrutinizer-ci.com/g/Laralabs/toaster/badges/quality-score.png?b=master" alt="ScrutinizerCI">
 </p>
 The toaster package for Laravel provides a quick 'n' easy method for creating toast messages and binding the data to your view as a JS variable. You can then access them in your favourite Vue, Angular or React components.
 
