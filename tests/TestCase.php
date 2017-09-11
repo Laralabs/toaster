@@ -2,6 +2,8 @@
 
 namespace Laralabs\Toaster\Tests;
 
+use Laralabs\Toaster\ToasterServiceProvider;
+
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     /**
@@ -44,6 +46,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Laralabs\Toaster\ToasterServiceProvider'];
+        return [
+            ToasterServiceProvider::class
+        ];
     }
 }

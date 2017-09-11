@@ -16,11 +16,11 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">app/</directory>
+            <directory suffix=".php">./src/</directory>
+            <exclude>
+                <file>./src/ToasterServiceProvider.php</file>
+            </exclude>
         </whitelist>
-        <blacklist>
-            <directory suffix=".php">./vendor</directory>
-        </blacklist>
     </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
