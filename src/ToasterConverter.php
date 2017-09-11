@@ -5,7 +5,8 @@ namespace Laralabs\Toaster;
 class ToasterConverter
 {
     /**
-     * The namespace to put JS variable under
+     * The namespace to put JS variable under.
+     *
      * @var string
      */
     protected $namespace;
@@ -15,16 +16,17 @@ class ToasterConverter
      */
     protected $viewBinder;
 
-    function __construct(ToasterViewBinder $viewBinder, $namespace = 'window')
+    public function __construct(ToasterViewBinder $viewBinder, $namespace = 'window')
     {
         $this->viewBinder = $viewBinder;
         $this->namespace = $namespace;
     }
 
     /**
-     * Encode data to JSON and bind to the view
+     * Encode data to JSON and bind to the view.
      *
      * @param array $data
+     *
      * @return string
      */
     public function put(array $data = [])
