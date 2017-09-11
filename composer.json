@@ -1,0 +1,41 @@
+{
+  "name": "laralabs/toaster",
+  "description": "Easily generate and bind message JSON data to the view for use in frontend toast components",
+  "license": "MIT License",
+  "authors": [
+    {
+      "name": "Matt Clinton",
+      "email": "matt@laralabs.uk"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0",
+    "illuminate/support": "5.4.*|5.5.*",
+    "illuminate/database": "5.4.*|5.5.*",
+    "illuminate/contracts": "5.4.*|5.5.*"
+  },
+  "require-dev": {
+    "mockery/mockery": "dev-master",
+    "phpunit/phpunit": "^6.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Laralabs\\Toaster\\": "src/",
+      "Laralabs\\Toaster\\Tests\\": "tests/"
+    },
+    "files": [
+      "src/Helpers/functions.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Laralabs\\Toaster\\ToasterServiceProvider"
+      ],
+      "aliases": {
+        "Toaster": "Laralabs\\Toaster\\Facades\\Toaster"
+      }
+    }
+  }
+}
