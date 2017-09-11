@@ -6,6 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class ToasterServiceProvider extends ServiceProvider
 {
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->app->bind(
@@ -31,6 +36,11 @@ class ToasterServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->publishes([
