@@ -265,11 +265,9 @@ class ToasterTest extends TestCase
         $this->session->flash('toaster', $this->toaster->messages);
 
         $this->assertSessionIsFlashed();
-        $session = $this->session->has('toaster');
-        if($session) {
-            $data = $this->session->get('toaster');
-            $this->assertEquals($this->toaster->messages, $data);
-        }
+        $data = $this->session->get('toaster');
+        print_r($data);
+        $this->assertEquals($this->toaster->messages, $data);
         //$this->fail('Key does not exist in session');
     }
 
