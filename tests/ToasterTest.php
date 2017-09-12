@@ -39,6 +39,7 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
+        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
     }
 
     /** @test */
@@ -228,6 +229,23 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
+    public function it_can_update_last_message_with_add_function()
+    {
+        $this->toaster()->add('Beans on Toast')->success();
+        $this->toaster()->add('error', true, 'It now has a title', 5000);
+
+        $toast = $this->toaster->messages[0];
+
+        $this->assertEquals('Beans on Toast', $toast->message);
+        $this->assertEquals('error', $toast->theme);
+        $this->assertEquals(true, $toast->closeBtn);
+        $this->assertEquals('It now has a title', $toast->title);
+        $this->assertEquals(5000, $toast->expires);
+
+        $this->toaster()->toast();
+    }
+
+    /** @test */
     public function it_clears_message_collection()
     {
         $this->toaster->add('Beans on Toast')->success();
@@ -280,9 +298,7 @@ class ToasterTest extends TestCase
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
         if($value)
         {
-            $data = Session::get($name);
-            $this->assertEquals($value, $data, "Session '$name' are not equal to $value");
-            //$this->assertContains($value, Session::get($name), "Session '$name' are not equal to $value");
+            $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to $value");
         }
     }
 
