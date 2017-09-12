@@ -264,6 +264,7 @@ class ToasterTest extends TestCase
         $this->session->flash('toaster', $this->toaster->messages);
 
         $this->assertSessionIsFlashed();
+        print_r($this->session);
         $session = $this->session->has('toaster');
         if($session) {
             $data = $this->session->get('toaster');
@@ -275,7 +276,6 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_aborts_expires_non_integer()
     {
-        $this->expectExceptionCode(500);
         $this->expectExceptionMessage('Argument passed to expires() must be a valid integer');
 
         $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
@@ -284,19 +284,17 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_aborts_missing_message()
     {
-        $this->toaster->add()->toast();
-
-        $this->expectExceptionCode(500);
         $this->expectExceptionMessage('Provide a message to the add() function before attempting to modify it');
+
+        $this->toaster->add()->toast();
     }
 
     /** @test */
     public function it_aborts_editing_non_message()
     {
-        $this->toaster->success()->toast();
-
-        $this->expectExceptionCode(500);
         $this->expectExceptionMessage('Provide a message to the add() function before attempting to modify it');
+
+        $this->toaster->success()->toast();
     }
 
     protected function assertSessionIsFlashed($times = 1)
