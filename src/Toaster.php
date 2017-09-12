@@ -148,18 +148,8 @@ class Toaster
      *
      * @return $this
      */
-    public function add($message = null, $theme = 'info', $closeBtn = false, $title = '', $expires = null)
+    public function add($message, $theme = 'info', $closeBtn = false, $title = '', $expires = null)
     {
-        // If no message was provided, we should update
-        // the most recently added message.
-        if (!$message) {
-            if ($this->messages->count() > 0) {
-                return $this->updateLastMessage(compact('theme', 'closeBtn', 'title', 'expires'));
-            }
-
-            abort(500, 'Provide a message to the add() function before attempting to modify it');
-        }
-
         if (!$message instanceof Toast) {
             $message = new Toast(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
         }
@@ -167,6 +157,28 @@ class Toaster
         $this->messages->push($message);
 
         return $this;
+    }
+
+    /**
+     * Updates the previous message.
+     *
+     * @param string $theme
+     * @param bool $closeBtn
+     * @param string $title
+     * @param null $expires
+     * @param null $message
+     * @return Toaster
+     */
+    public function update($theme = 'info', $closeBtn = false, $title = '', $expires = null, $message = null)
+    {
+        if ($this->messages->count() > 0) {
+            if ($message !== null || $message != '') {
+                return $this->updateLastMessage(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
+            }
+            return $this->updateLastMessage(compact('theme', 'closeBtn', 'title', 'expires'));
+        }
+
+        abort(500, 'Provide a message to the add() function before attempting to modify it');
     }
 
     /**
