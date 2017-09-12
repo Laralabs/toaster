@@ -2,6 +2,7 @@
 
 namespace Laralabs\Toaster\Tests;
 
+use Illuminate\Support\Facades\Session;
 use Laralabs\Toaster\Toaster;
 
 class ToasterTest extends TestCase
@@ -264,10 +265,9 @@ class ToasterTest extends TestCase
         $this->session->flash('toaster', $this->toaster->messages);
 
         $this->assertSessionIsFlashed();
-        print_r($this->session);
-        $session = $this->session->has('toaster');
+        $session = Session::has('toaster');
         if($session) {
-            $data = $this->session->get('toaster');
+            $data = Session::get('toaster');
             $this->assertEquals($this->toaster->messages, $data);
         }
         $this->fail('Key does not exist in session');
@@ -292,7 +292,7 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_aborts_editing_non_message()
     {
-        $this->expectExceptionMessage('Provide a message to the add() function before attempting to modify it');
+        $this->expectExceptionMessage('Use the add() function to add a message before attempting to modify it');
 
         $this->toaster->success()->toast();
     }
