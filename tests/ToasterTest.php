@@ -231,8 +231,8 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_can_update_last_message_with_add_function()
     {
-        $this->toaster()->add('Beans on Toast')->success();
-        $this->toaster()->add('error', true, 'It now has a title', 5000);
+        $this->toaster->add('Beans on Toast')->success();
+        $this->toaster->add('error', true, 'It now has a title', 5000);
 
         $toast = $this->toaster->messages[0];
 
@@ -242,7 +242,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('It now has a title', $toast->title);
         $this->assertEquals(5000, $toast->expires);
 
-        $this->toaster()->toast();
+        $this->toaster->toast();
     }
 
     /** @test */
