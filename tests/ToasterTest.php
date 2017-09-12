@@ -263,17 +263,22 @@ class ToasterTest extends TestCase
 
         $this->session->flash('toaster', $this->toaster->messages);
 
-        $flashed = $this->assertSessionIsFlashed();
-        $this->assertTrue($flashed);
+        $this->assertSessionIsFlashed();
+        $session = $this->session->has('toaster');
+        if($session) {
+            $data = $this->session->get('toaster');
+            $this->assertEquals($this->toaster->messages, $data);
+        }
+        $this->fail('Key does not exist in session');
     }
 
     /** @test */
     public function it_aborts_expires_non_integer()
     {
-        $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
-
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage('Argument passed to expires() must be a valid integer');
+
+        $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
     }
 
     /** @test */
