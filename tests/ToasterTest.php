@@ -280,7 +280,11 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_has_mandatory_message_argument()
     {
-        $this->expectException('ArgumentCountError');
+        if (version_compare(PHP_VERSION, '7.1', '>=')) {
+            $this->expectException('ArgumentCountError');
+        } else {
+            $this->expectException('ReflectionException');
+        }
 
         $this->toaster->add()->toast();
     }

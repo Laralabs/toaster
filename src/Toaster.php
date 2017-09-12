@@ -182,6 +182,7 @@ class Toaster
     {
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);
+
             return $this;
         }
 
