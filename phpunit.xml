@@ -21,7 +21,7 @@
             <directory>vendor</directory>
             <directory>tests</directory>
         </blacklist>
-        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory>src</directory>
         </whitelist>
     </filter>
