@@ -32,4 +32,29 @@ class LaravelSessionStore implements SessionStore
     {
         $this->session->flash($name, $data);
     }
+
+    /**
+     * Checks if a key is present and not null.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function has($key)
+    {
+        $this->session->has($key);
+    }
+
+    /**
+     * Get an item from the session.
+     *
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        $this->session->get($key, $default);
+    }
+
+
 }
