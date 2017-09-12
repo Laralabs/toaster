@@ -33,12 +33,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     public $interval;
 
-    public function setUp(SessionStore $session)
+    public function setUp()
     {
         parent::setUp();
 
         //$this->session = \Mockery::spy('Laralabs\Toaster\Interfaces\SessionStore');
-        $this->session = $session;
+        $this->session = app('Laralabs\Toaster\Interfaces\SessionStore');
 
         $this->toaster = new Toaster($this->session);
         $this->converter = app('toasterConverter');
