@@ -229,10 +229,10 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_last_message_with_add_function()
+    public function it_can_update_last_message_with_update_function()
     {
         $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('error', true, 'It now has a title', 5000);
+        $this->toaster->update(['theme' => 'error', 'closeBtn' => true, 'title' => 'It now has a title', 'expires' => 5000]);
 
         $toast = $this->toaster->messages[0];
 
@@ -278,9 +278,9 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_aborts_missing_message()
+    public function it_has_mandatory_message_argument()
     {
-        $this->expectExceptionMessage('Provide a message to the add() function before attempting to modify it');
+        $this->expectException('ArgumentCountError');
 
         $this->toaster->add()->toast();
     }

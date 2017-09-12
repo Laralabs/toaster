@@ -162,23 +162,12 @@ class Toaster
     /**
      * Updates the previous message.
      *
-     * @param string $theme
-     * @param bool $closeBtn
-     * @param string $title
-     * @param null $expires
-     * @param null $message
+     * @param array $attributes
      * @return Toaster
      */
-    public function update($theme = 'info', $closeBtn = false, $title = '', $expires = null, $message = null)
+    public function update($attributes)
     {
-        if ($this->messages->count() > 0) {
-            if ($message !== null || $message != '') {
-                return $this->updateLastMessage(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
-            }
-            return $this->updateLastMessage(compact('theme', 'closeBtn', 'title', 'expires'));
-        }
-
-        abort(500, 'Provide a message to the add() function before attempting to modify it');
+        return $this->updateLastMessage($attributes);
     }
 
     /**
