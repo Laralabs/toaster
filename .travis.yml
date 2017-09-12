@@ -6,8 +6,12 @@ php:
 
 sudo: false
 
+before_install:
+  - phpenv config-rm xdebug.ini
+
 install:
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer install --no-interaction --prefer-source --no-suggest
 
 script:
   - $TRAVIS_BUILD_DIR/vendor/bin/phpunit
+

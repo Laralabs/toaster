@@ -16,12 +16,16 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-html" target="coverage/" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="coverage/coverage-clover.xml" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
     <filter>
         <blacklist>
             <directory>vendor</directory>
             <directory>tests</directory>
         </blacklist>
-        <whitelist>
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
             <directory>src</directory>
         </whitelist>
     </filter>
