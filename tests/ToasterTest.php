@@ -2,7 +2,7 @@
 
 namespace Laralabs\Toaster\Tests;
 
-use Illuminate\Support\Facades\Session;
+use Session;
 use Laralabs\Toaster\Toaster;
 
 class ToasterTest extends TestCase
@@ -265,10 +265,7 @@ class ToasterTest extends TestCase
         $this->session->flash('toaster', $this->toaster->messages);
 
         $this->assertSessionIsFlashed();
-        $data = $this->session->get('toaster');
-        print_r($data);
-        $this->assertEquals($this->toaster->messages, $data);
-        //$this->fail('Key does not exist in session');
+        $this->assertSessionHas('toaster', $this->toaster->messages);
     }
 
     /** @test */
@@ -301,6 +298,15 @@ class ToasterTest extends TestCase
             ->shouldHaveReceived('flash')
             ->with('toaster', $this->toaster->messages)
             ->times($times);
+    }
+
+    protected function assertSessionHas( $name, $value = null )
+    {
+        $this->assertTrue( Session::has($name), "Session doesn't contain '$name'" );
+        if( $value )
+        {
+            $this->assertContains( $value, Session::get($name), "Session '$name' are not equal to $value" );
+        }
     }
 
     public function tearDown()
