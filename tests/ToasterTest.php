@@ -50,7 +50,6 @@ class ToasterTest extends TestCase
         $this->assertCount(2, $this->toaster->messages);
 
         $this->toaster->toast();
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -281,7 +280,9 @@ class ToasterTest extends TestCase
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
         if($value)
         {
-            $this->assertContains($value, Session::get($name), "Session '$name' are not equal to $value");
+            $data = Session::get($name);
+            $this->assertEquals($value, $data, "Session '$name' are not equal to $value");
+            //$this->assertContains($value, Session::get($name), "Session '$name' are not equal to $value");
         }
     }
 
