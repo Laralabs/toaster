@@ -2,8 +2,8 @@
 
 namespace Laralabs\Toaster\Tests;
 
-use Session;
 use Laralabs\Toaster\Toaster;
+use Session;
 
 class ToasterTest extends TestCase
 {
@@ -296,8 +296,7 @@ class ToasterTest extends TestCase
     protected function assertSessionHas($name, $value = null)
     {
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
-        if($value)
-        {
+        if ($value) {
             $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to $value");
         }
     }

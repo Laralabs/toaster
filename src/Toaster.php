@@ -163,6 +163,7 @@ class Toaster
      * Updates the previous message.
      *
      * @param array $attributes
+     *
      * @return Toaster
      */
     public function update($attributes)
