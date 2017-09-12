@@ -132,9 +132,9 @@ class Toaster
     {
         if (is_int($value)) {
             return $this->updateLastMessage(['expires' => $value]);
-        } else {
-            abort(500, 'Argument passed to expires() must be a valid integer');
         }
+
+        abort(500, 'Argument passed to expires() must be a valid integer');
     }
 
     /**
@@ -155,9 +155,9 @@ class Toaster
         if (!$message) {
             if ($this->messages->count() > 0) {
                 return $this->updateLastMessage(compact('theme', 'closeBtn', 'title', 'expires'));
-            } else {
-                abort(500, 'Provide a message to the add() function before attempting to modify it');
             }
+
+            abort(500, 'Provide a message to the add() function before attempting to modify it');
         }
 
         if (!$message instanceof Toast) {
@@ -180,11 +180,10 @@ class Toaster
     {
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);
-        } else {
-            abort(500, 'Use the add() function to add a message before attempting to modify it');
+            return $this;
         }
 
-        return $this;
+        abort(500, 'Use the add() function to add a message before attempting to modify it');
     }
 
     /**

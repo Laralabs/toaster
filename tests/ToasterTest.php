@@ -135,6 +135,24 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
+    public function it_displays_info_toast()
+    {
+        $this->toaster->add('Info on Toast')->info();
+
+        $toast = $this->toaster->messages[0];
+
+        $this->assertEquals('Info on Toast', $toast->message);
+        $this->assertEquals('info', $toast->theme);
+        $this->assertEquals(false, $toast->closeBtn);
+        $this->assertEquals('', $toast->title);
+        $this->assertEquals(null, $toast->expires);
+
+        $this->toaster->toast();
+
+        $this->assertSessionIsFlashed();
+    }
+
+    /** @test */
     public function it_displays_success_toast()
     {
         $this->toaster->add('Success on Toast')->success();
@@ -235,6 +253,41 @@ class ToasterTest extends TestCase
         $this->toaster->clear();
 
         $this->assertCount(0, $this->toaster->messages);
+    }
+
+    /** @test */
+    public function it_can_flash_data_to_session_store()
+    {
+        $this->toaster->add('Beans on Toast')->success();
+        $this->toaster->add('Egg on Toast');
+
+        $this->session->flash('toaster', $this->toaster->messages);
+
+        $this->assertSessionIsFlashed();
+    }
+
+    /** @test */
+    public function it_aborts_expires_non_integer()
+    {
+        $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
+
+        $this->assertResponseStatus(500);
+    }
+
+    /** @test */
+    public function it_aborts_missing_message()
+    {
+        $this->toaster->add()->toast();
+
+        $this->assertResponseStatus(500);
+    }
+
+    /** @test */
+    public function it_aborts_editing_non_message()
+    {
+        $this->toaster->success()->toast();
+
+        $this->assertResponseStatus(500);
     }
 
     protected function assertSessionIsFlashed($times = 1)
