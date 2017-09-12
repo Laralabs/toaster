@@ -283,7 +283,7 @@ class ToasterTest extends TestCase
         if (version_compare(PHP_VERSION, '7.1', '>=')) {
             $this->expectException('ArgumentCountError');
         } else {
-            $this->expectException('ReflectionException');
+            $this->expectException('ErrorException');
         }
 
         $this->toaster->add()->toast();
