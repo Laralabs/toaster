@@ -13,5 +13,7 @@ install:
   - travis_retry composer install --no-interaction --prefer-source --no-suggest
 
 script:
-  - $TRAVIS_BUILD_DIR/vendor/bin/phpunit
+  - $TRAVIS_BUILD_DIR/vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
+after_success:
+  - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN ./vendor/bin/test-reporter
