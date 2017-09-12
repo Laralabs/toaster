@@ -39,7 +39,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -81,8 +80,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(5000, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -149,8 +146,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -167,8 +162,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -185,8 +178,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -203,8 +194,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -221,8 +210,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -239,8 +226,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(null, $toast->expires);
 
         $this->toaster->toast();
-
-        $this->assertSessionIsFlashed();
     }
 
     /** @test */
@@ -264,8 +249,7 @@ class ToasterTest extends TestCase
 
         $this->session->flash('toaster', $this->toaster->messages);
 
-        $this->assertSessionIsFlashed();
-        $this->assertSessionHas('toaster', $this->toaster->messages);
+        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
     }
 
     /** @test */
@@ -292,22 +276,12 @@ class ToasterTest extends TestCase
         $this->toaster->success()->toast();
     }
 
-    protected function assertSessionIsFlashed($times = 1)
+    protected function assertSessionHas($name, $value = null)
     {
-        /*return $this->session
-            ->shouldHaveReceived('flash')
-            ->with('toaster', $this->toaster->messages)
-            ->times($times);
-        */
-        return null;
-    }
-
-    protected function assertSessionHas( $name, $value = null )
-    {
-        $this->assertTrue( Session::has($name), "Session doesn't contain '$name'" );
-        if( $value )
+        $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
+        if($value)
         {
-            $this->assertContains( $value, Session::get($name), "Session '$name' are not equal to $value" );
+            $this->assertContains($value, Session::get($name), "Session '$name' are not equal to $value");
         }
     }
 
