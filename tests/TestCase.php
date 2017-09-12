@@ -2,6 +2,7 @@
 
 namespace Laralabs\Toaster\Tests;
 
+use Laralabs\Toaster\Interfaces\SessionStore;
 use Laralabs\Toaster\Toaster;
 use Laralabs\Toaster\ToasterServiceProvider;
 
@@ -32,12 +33,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     public $interval;
 
-    public function setUp()
+    public function setUp(SessionStore $session)
     {
         parent::setUp();
 
         //$this->session = \Mockery::spy('Laralabs\Toaster\Interfaces\SessionStore');
-        $this->session = session();
+        $this->session = $session;
 
         $this->toaster = new Toaster($this->session);
         $this->converter = app('toasterConverter');
