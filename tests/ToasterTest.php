@@ -36,7 +36,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
 
         $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
     }
@@ -58,7 +58,7 @@ class ToasterTest extends TestCase
 
         $toast = $this->toaster->messages[0];
 
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
         $this->assertEquals($this->lifetime, $toast->expires);
     }
 
@@ -81,7 +81,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->add('Beans on Toast');
         $this->toaster->add('Egg on Toast');
-        $this->toaster->add('This package is toastier');
+        $this->toaster->add('Cheese on Toast');
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
@@ -135,7 +135,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -149,7 +149,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('success', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -163,7 +163,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('error', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -177,7 +177,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('warning', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -191,7 +191,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(true, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -205,7 +205,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('Toast is good for you', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */

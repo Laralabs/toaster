@@ -128,7 +128,7 @@ class Toaster
             return $this->updateLastMessage(['expires' => $value]);
         }
 
-        abort(500, 'Argument passed to expires() must be a valid integer');
+        abort(500, 'Argument passed to expires() must be a valid integer (milliseconds)');
     }
 
     /**
