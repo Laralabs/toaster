@@ -3,19 +3,6 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | View to Bind Messages To
-    |--------------------------------------------------------------------------
-    |
-    | Set this value to the name of the view (or partial) that
-    | you want to prepend the message variable to.
-    | This can be a single view, or an array of views.
-    | Example: 'footer' or ['footer', 'bottom']
-    |
-    */
-    'bind_js_vars_to_this_view' => 'welcome',
-
-    /*
-    |--------------------------------------------------------------------------
     | JavaScript Namespace
     |--------------------------------------------------------------------------
     |

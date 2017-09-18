@@ -5,11 +5,16 @@ namespace Laralabs\Toaster\Interfaces;
 interface ViewBinder
 {
     /**
-     * Bind JavaScript variables to the view.
-     *
-     * @param $js
+     * Generates a JS variable.
      *
      * @return mixed
      */
-    public function bind($js);
+    public function generateJs();
+
+    /**
+     * Bind JavaScript variables to the view.
+     *
+     * @return mixed
+     */
+    public function bind();
 }

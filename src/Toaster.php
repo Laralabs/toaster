@@ -14,11 +14,6 @@ class Toaster
     protected $session;
 
     /**
-     * @var ToasterConverter
-     */
-    protected $converter;
-
-    /**
      * @var string
      */
     public $json;
@@ -51,7 +46,6 @@ class Toaster
     public function __construct(SessionStore $session)
     {
         $this->session = $session;
-        $this->converter = app('toasterConverter');
         $this->messages = collect();
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
@@ -156,7 +150,7 @@ class Toaster
 
         $this->messages->push($message);
 
-        return $this;
+        return $this->flash();
     }
 
     /**
@@ -183,31 +177,10 @@ class Toaster
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);
 
-            return $this;
+            return $this->flash();
         }
 
         abort(500, 'Use the add() function to add a message before attempting to modify it');
-    }
-
-    /**
-     * Flash messages to session and bind them to the view.
-     */
-    public function toast()
-    {
-        $this->setExpires();
-
-        $this->flash();
-
-        $this->json = $this->converter->put([
-            'data' => [
-                'lifetime'  => $this->lifetime,
-                'maxToasts' => $this->limit,
-                'messages'  => $this->messages->toArray(),
-                'position'  => $this->position,
-            ],
-        ]);
-
-        return $this;
     }
 
     /**
@@ -246,7 +219,16 @@ class Toaster
      */
     protected function flash()
     {
-        $this->session->flash('toaster', $this->messages);
+        $this->setExpires();
+
+        $this->session->flash('toaster', [
+            'data' => [
+                'lifetime'  => $this->lifetime,
+                'maxToasts' => $this->limit,
+                'messages'  => $this->messages->toArray(),
+                'position'  => $this->position,
+            ],
+        ]);
 
         return $this;
     }
