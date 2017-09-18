@@ -38,7 +38,14 @@ class ToasterTest extends TestCase
         $this->assertEquals('', $toast->title);
         $this->assertEquals(2000, $toast->expires);
 
-        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
+        $this->assertSessionHas('toaster', [
+            'data' => [
+                'lifetime'  => $this->lifetime,
+                'maxToasts' => $this->limit,
+                'messages'  => $this->toaster->messages->toArray(),
+                'position'  => $this->position,
+            ]
+        ]);
     }
 
     /** @test */
@@ -242,9 +249,18 @@ class ToasterTest extends TestCase
         $this->toaster->add('Beans on Toast')->success();
         $this->toaster->add('Egg on Toast');
 
-        $this->session->flash('toaster', $this->toaster->messages);
+        $data = [
+            'data' => [
+                'lifetime'  => $this->lifetime,
+                'maxToasts' => $this->limit,
+                'messages'  => $this->toaster->messages->toArray(),
+                'position'  => $this->position,
+            ]
+        ];
 
-        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
+        $this->session->flash('toaster', $data);
+
+        $this->assertSessionHas('toaster', $data);
     }
 
     /** @test */

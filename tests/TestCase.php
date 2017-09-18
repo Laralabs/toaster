@@ -20,6 +20,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * @var
      */
+    public $limit;
+
+    /**
+     * @var
+     */
+    public $position;
+
+    /**
+     * @var
+     */
     public $lifetime;
 
     /**
@@ -35,6 +45,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->toaster = new Toaster($this->session);
 
+        $this->limit = config('toaster.max_toasts');
+        $this->position = config('toaster.toast_position');
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
     }
