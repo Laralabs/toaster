@@ -38,7 +38,6 @@ class ToasterTest extends TestCase
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
 
-        $this->toaster->toast();
         $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
     }
 
@@ -49,8 +48,6 @@ class ToasterTest extends TestCase
         $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -62,7 +59,6 @@ class ToasterTest extends TestCase
         $toast = $this->toaster->messages[0];
 
         $this->assertEquals(null, $toast->expires);
-        $this->toaster->toast();
         $this->assertEquals($this->lifetime, $toast->expires);
     }
 
@@ -78,8 +74,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(5000, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -88,7 +82,6 @@ class ToasterTest extends TestCase
         $this->toaster->add('Beans on Toast');
         $this->toaster->add('Egg on Toast');
         $this->toaster->add('This package is toastier');
-        $this->toaster->toast();
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
@@ -103,8 +96,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->add('Beans on Toast');
         $this->toaster->add('Egg on Toast')->expires(9000);
-        $this->toaster->add('This package is toastier');
-        $this->toaster->toast();
+        $this->toaster->add('Cheese on Toast');
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
@@ -124,7 +116,7 @@ class ToasterTest extends TestCase
     public function it_generates_correctly_structured_json()
     {
         $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast')->toast();
+        $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
 
@@ -144,8 +136,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -160,8 +150,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -176,8 +164,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -192,8 +178,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -208,8 +192,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(true, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -224,8 +206,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('Toast is good for you', $toast->title);
         $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -241,15 +221,13 @@ class ToasterTest extends TestCase
         $this->assertEquals(true, $toast->closeBtn);
         $this->assertEquals('It now has a title', $toast->title);
         $this->assertEquals(5000, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
     public function it_clears_message_collection()
     {
         $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast')->toast();
+        $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
 
@@ -272,9 +250,9 @@ class ToasterTest extends TestCase
     /** @test */
     public function it_aborts_expires_non_integer()
     {
-        $this->expectExceptionMessage('Argument passed to expires() must be a valid integer');
+        $this->expectExceptionMessage('Argument passed to expires() must be a valid integer (milliseconds)');
 
-        $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
+        $this->toaster->add('Beans on Toast')->expires('five minutes');
     }
 
     /** @test */
@@ -286,7 +264,7 @@ class ToasterTest extends TestCase
             $this->expectException('ErrorException');
         }
 
-        $this->toaster->add()->toast();
+        $this->toaster->add();
     }
 
     /** @test */
@@ -294,7 +272,7 @@ class ToasterTest extends TestCase
     {
         $this->expectExceptionMessage('Use the add() function to add a message before attempting to modify it');
 
-        $this->toaster->success()->toast();
+        $this->toaster->success();
     }
 
     protected function assertSessionHas($name, $value = null)
