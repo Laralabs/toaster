@@ -39,8 +39,8 @@ class ToasterServiceProvider extends ServiceProvider
             __DIR__.'/../config/toaster.php'  => config_path('toaster.php'),
         ], 'config');
 
-        Blade::directive('toaster', function() {
-            return "<?php echo app('" . ToasterViewBinder::class . "')->bind(); ?>";
+        Blade::directive('toaster', function () {
+            return "<?php echo app('".ToasterViewBinder::class."')->bind(); ?>";
         });
     }
 }

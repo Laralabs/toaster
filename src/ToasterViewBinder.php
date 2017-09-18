@@ -23,7 +23,7 @@ class ToasterViewBinder implements ViewBinder
     private $store;
 
     /**
-     * Config: js_namespace
+     * Config: js_namespace.
      *
      * @var string
      */
@@ -37,6 +37,11 @@ class ToasterViewBinder implements ViewBinder
         $this->namespace = config('toaster.js_namespace');
     }
 
+    /**
+     * Generates a JS variable.
+     *
+     * @return mixed
+     */
     public function generateJs()
     {
         if ($this->store->has('toaster')) {
