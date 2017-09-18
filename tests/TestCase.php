@@ -20,11 +20,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * @var
      */
-    protected $converter;
-
-    /**
-     * @var
-     */
     public $lifetime;
 
     /**
@@ -39,7 +34,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->session = app('Laralabs\Toaster\Interfaces\SessionStore');
 
         $this->toaster = new Toaster($this->session);
-        $this->converter = app('toasterConverter');
 
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
