@@ -61,7 +61,7 @@ class ToasterViewBinder implements ViewBinder
     /**
      * Return the JavaScript variable to the view.
      *
-     * @return null
+     * @return string
      */
     public function bind()
     {
