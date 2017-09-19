@@ -50,7 +50,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->session = app('Laralabs\Toaster\Interfaces\SessionStore');
 
         $this->toaster = new Toaster($this->session);
-        $this->binder = new ToasterViewBinder();
+        $this->binder = app('toasterViewBinder');
 
         $this->limit = config('toaster.max_toasts');
         $this->position = config('toaster.toast_position');

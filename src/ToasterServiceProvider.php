@@ -23,6 +23,10 @@ class ToasterServiceProvider extends ServiceProvider
             return $this->app->make('Laralabs\Toaster\Toaster');
         });
 
+        $this->app->singleton('toasterViewBinder', function () {
+            return $this->app->make('Laralabs\Toaster\ToasterViewBinder');
+        });
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/toaster.php', 'toaster'
         );
