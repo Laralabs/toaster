@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Removed
 - toast() function no longer needed
 - 'bind_js_vars_to_this_view' config option
-## [1.1.0] - 2017-09-12
+## [1.1.0] - 12-09-2017
 ### Added
 - update() function to mass update previous message properties
 - Unit Tests
