@@ -128,7 +128,7 @@ class ToasterTest extends TestCase
         $this->assertCount(2, $this->toaster->messages);
 
         $validJson = 'window.toaster = window.toaster || {};toaster.data = {"lifetime":2000,"maxToasts":10,"messages":[{"message":"Beans on Toast","theme":"success","closeBtn":false,"title":"","expires":2000},{"message":"Egg on Toast","theme":"info","closeBtn":false,"title":"","expires":2500}],"position":"top right"}';
-        $this->assertEquals($validJson, $this->toaster->json);
+        $this->assertEquals($validJson, $this->binder->generateJs());
     }
 
     /** @test */
