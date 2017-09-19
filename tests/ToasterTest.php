@@ -295,7 +295,7 @@ class ToasterTest extends TestCase
     {
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
         if ($value) {
-            $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to $value");
+            $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to".print_r($value)."");
         }
     }
 
