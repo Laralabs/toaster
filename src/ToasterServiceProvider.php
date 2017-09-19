@@ -2,6 +2,7 @@
 
 namespace Laralabs\Toaster;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class ToasterServiceProvider extends ServiceProvider
@@ -22,13 +23,8 @@ class ToasterServiceProvider extends ServiceProvider
             return $this->app->make('Laralabs\Toaster\Toaster');
         });
 
-        $this->app->singleton('toasterConverter', function ($app) {
-            $view = config('toaster.bind_js_vars_to_this_view');
-            $namespace = config('toaster.js_namespace');
-
-            $binder = new ToasterViewBinder($app['events'], $view);
-
-            return new ToasterConverter($binder, $namespace);
+        $this->app->singleton('toasterViewBinder', function () {
+            return $this->app->make('Laralabs\Toaster\ToasterViewBinder');
         });
 
         $this->mergeConfigFrom(
@@ -46,5 +42,9 @@ class ToasterServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/toaster.php'  => config_path('toaster.php'),
         ], 'config');
+
+        Blade::directive('toaster', function () {
+            return "<?php echo app('".ToasterViewBinder::class."')->bind(); ?>";
+        });
     }
 }

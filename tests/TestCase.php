@@ -4,6 +4,7 @@ namespace Laralabs\Toaster\Tests;
 
 use Laralabs\Toaster\Toaster;
 use Laralabs\Toaster\ToasterServiceProvider;
+use Laralabs\Toaster\ToasterViewBinder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -20,7 +21,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * @var
      */
-    protected $converter;
+    protected $binder;
+
+    /**
+     * @var
+     */
+    public $limit;
+
+    /**
+     * @var
+     */
+    public $position;
 
     /**
      * @var
@@ -39,8 +50,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->session = app('Laralabs\Toaster\Interfaces\SessionStore');
 
         $this->toaster = new Toaster($this->session);
-        $this->converter = app('toasterConverter');
+        $this->binder = app('toasterViewBinder');
 
+        $this->limit = config('toaster.max_toasts');
+        $this->position = config('toaster.toast_position');
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
     }

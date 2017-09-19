@@ -36,10 +36,16 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
+        $this->assertEquals(2000, $toast->expires);
 
-        $this->toaster->toast();
-        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
+        $this->assertSessionHas('toaster', [
+            'data' => [
+                'lifetime'  => $this->lifetime,
+                'maxToasts' => $this->limit,
+                'messages'  => $this->toaster->messages->toArray(),
+                'position'  => $this->position,
+            ],
+        ]);
     }
 
     /** @test */
@@ -49,8 +55,6 @@ class ToasterTest extends TestCase
         $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -61,8 +65,7 @@ class ToasterTest extends TestCase
 
         $toast = $this->toaster->messages[0];
 
-        $this->assertEquals(null, $toast->expires);
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
         $this->assertEquals($this->lifetime, $toast->expires);
     }
 
@@ -78,8 +81,6 @@ class ToasterTest extends TestCase
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
         $this->assertEquals(5000, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
@@ -87,8 +88,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->add('Beans on Toast');
         $this->toaster->add('Egg on Toast');
-        $this->toaster->add('This package is toastier');
-        $this->toaster->toast();
+        $this->toaster->add('Cheese on Toast');
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
@@ -103,8 +103,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->add('Beans on Toast');
         $this->toaster->add('Egg on Toast')->expires(9000);
-        $this->toaster->add('This package is toastier');
-        $this->toaster->toast();
+        $this->toaster->add('Cheese on Toast');
 
         $this->assertCount(3, $this->toaster->messages);
         $expires = $this->lifetime;
@@ -124,12 +123,12 @@ class ToasterTest extends TestCase
     public function it_generates_correctly_structured_json()
     {
         $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast')->toast();
+        $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
 
         $validJson = 'window.toaster = window.toaster || {};toaster.data = {"lifetime":2000,"maxToasts":10,"messages":[{"message":"Beans on Toast","theme":"success","closeBtn":false,"title":"","expires":2000},{"message":"Egg on Toast","theme":"info","closeBtn":false,"title":"","expires":2500}],"position":"top right"}';
-        $this->assertEquals($validJson, $this->toaster->json);
+        $this->assertEquals($validJson, $this->binder->generateJs());
     }
 
     /** @test */
@@ -143,9 +142,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -159,9 +156,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('success', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -175,9 +170,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('error', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -191,9 +184,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('warning', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -207,9 +198,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(true, $toast->closeBtn);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -223,9 +212,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('info', $toast->theme);
         $this->assertEquals(false, $toast->closeBtn);
         $this->assertEquals('Toast is good for you', $toast->title);
-        $this->assertEquals(null, $toast->expires);
-
-        $this->toaster->toast();
+        $this->assertEquals(2000, $toast->expires);
     }
 
     /** @test */
@@ -241,15 +228,13 @@ class ToasterTest extends TestCase
         $this->assertEquals(true, $toast->closeBtn);
         $this->assertEquals('It now has a title', $toast->title);
         $this->assertEquals(5000, $toast->expires);
-
-        $this->toaster->toast();
     }
 
     /** @test */
     public function it_clears_message_collection()
     {
         $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast')->toast();
+        $this->toaster->add('Egg on Toast');
 
         $this->assertCount(2, $this->toaster->messages);
 
@@ -264,17 +249,26 @@ class ToasterTest extends TestCase
         $this->toaster->add('Beans on Toast')->success();
         $this->toaster->add('Egg on Toast');
 
-        $this->session->flash('toaster', $this->toaster->messages);
+        $data = [
+            'data' => [
+                'lifetime'  => $this->lifetime,
+                'maxToasts' => $this->limit,
+                'messages'  => $this->toaster->messages->toArray(),
+                'position'  => $this->position,
+            ],
+        ];
 
-        $this->assertSessionHas('toaster', json_encode($this->toaster->messages));
+        $this->session->flash('toaster', $data);
+
+        $this->assertSessionHas('toaster', $data);
     }
 
     /** @test */
     public function it_aborts_expires_non_integer()
     {
-        $this->expectExceptionMessage('Argument passed to expires() must be a valid integer');
+        $this->expectExceptionMessage('Argument passed to expires() must be a valid integer (milliseconds)');
 
-        $this->toaster->add('Beans on Toast')->expires('five minutes')->toast();
+        $this->toaster->add('Beans on Toast')->expires('five minutes');
     }
 
     /** @test */
@@ -286,7 +280,7 @@ class ToasterTest extends TestCase
             $this->expectException('ErrorException');
         }
 
-        $this->toaster->add()->toast();
+        $this->toaster->add();
     }
 
     /** @test */
@@ -294,14 +288,14 @@ class ToasterTest extends TestCase
     {
         $this->expectExceptionMessage('Use the add() function to add a message before attempting to modify it');
 
-        $this->toaster->success()->toast();
+        $this->toaster->success();
     }
 
     protected function assertSessionHas($name, $value = null)
     {
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
         if ($value) {
-            $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to $value");
+            $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to".print_r($value).'');
         }
     }
 

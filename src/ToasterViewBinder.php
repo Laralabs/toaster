@@ -2,44 +2,69 @@
 
 namespace Laralabs\Toaster;
 
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Routing\Router;
+use Illuminate\Session\Store;
 use Laralabs\Toaster\Interfaces\ViewBinder;
 
 class ToasterViewBinder implements ViewBinder
 {
     /**
-     * Event Dispatcher.
+     * Router.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Routing\Router
      */
-    private $event;
+    private $router;
 
     /**
-     * Name of the view to bind variables to.
+     * Session Store.
      *
-     * @var
+     * @var \Illuminate\Session\Store
      */
-    private $views;
+    private $store;
 
-    public function __construct(Dispatcher $event, $views = [])
+    /**
+     * Config: js_namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
+    public function __construct(Router $router, Store $store)
     {
-        $this->event = $event;
-        $this->views = str_replace('/', '.', (array) $views);
+        $this->router = $router;
+        $this->store = $store;
+
+        $this->namespace = config('toaster.js_namespace');
     }
 
     /**
-     * Bind the JavaScript variable to the specified view.
+     * Generates a JS variable.
      *
-     * @param string $js
+     * @return mixed
+     */
+    public function generateJs()
+    {
+        if ($this->store->has('toaster')) {
+            $data = $this->store->get('toaster');
+            reset($data);
+            $js = 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.'.key($data).' = ';
+            $js = $js.json_encode($data[key($data)]);
+
+            $this->store->forget('toaster');
+
+            return $js;
+        }
+
+        return 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.data = {};';
+    }
+
+    /**
+     * Return the JavaScript variable to the view.
      *
      * @return null
      */
-    public function bind($js)
+    public function bind()
     {
-        foreach ($this->views as $view) {
-            $this->event->listen("composing: {$view}", function () use ($js) {
-                echo "<script>{$js}</script>";
-            });
-        }
+        return '<script type="text/javascript">'.$this->generateJs().'</script>';
     }
 }
