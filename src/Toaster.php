@@ -227,7 +227,7 @@ class Toaster
                 'maxToasts' => $this->limit,
                 'messages'  => $this->messages->toArray(),
                 'position'  => $this->position,
-            ]
+            ],
         ]);
 
         return $this;
