@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 29-01-2018
+### Changed
+- composer.json updated to fix packagist
 ## [2.0.0] - 19-09-2017
 ### Added
 - Support for using redirect()
