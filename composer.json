@@ -1,7 +1,7 @@
 {
   "name": "laralabs/toaster",
   "description": "Easily generate and bind message JSON data to the view for use in frontend toast components",
-  "license": "MIT License",
+  "license": "MIT",
   "authors": [
     {
       "name": "Matt Clinton",
