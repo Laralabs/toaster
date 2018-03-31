@@ -10,16 +10,16 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.0",
-    "illuminate/support": "5.4.*|5.5.*",
-    "illuminate/database": "5.4.*|5.5.*",
-    "illuminate/contracts": "5.4.*|5.5.*",
-    "illuminate/session": "5.4.*|5.5.*"
+    "php": ">=7.1",
+    "illuminate/support": "^5.4",
+    "illuminate/database": "^5.4",
+    "illuminate/contracts": "^5.4",
+    "illuminate/session": "^5.4"
   },
   "require-dev": {
     "mockery/mockery": "dev-master",
-    "orchestra/testbench": "~3.5",
-    "phpunit/phpunit": "^6.1",
+    "orchestra/testbench": "^3.4",
+    "phpunit/phpunit": "~7.0",
     "codeclimate/php-test-reporter": "^0.4.4"
   },
   "autoload": {
