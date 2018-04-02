@@ -16,6 +16,11 @@ class Toaster
     /**
      * @var string
      */
+    protected $currentGroup;
+
+    /**
+     * @var string
+     */
     public $json;
 
     /**
@@ -51,6 +56,7 @@ class Toaster
         $this->interval = config('toaster.toast_interval');
         $this->limit = config('toaster.max_toasts');
         $this->position = config('toaster.toast_position');
+        $this->currentGroup = 'default';
     }
 
     /**
@@ -147,9 +153,10 @@ class Toaster
             if (is_array($properties)) {
                 $properties['message'] = $message;
                 $properties['title'] = $title;
-                $properties['group'] = $group;
+                $properties['group'] = is_null($group) ? $this->currentGroup : $group;
                 $message = new Toast($properties);
             } else {
+                $group = is_null($group) ? $this->currentGroup : $group;
                 $message = new Toast(compact('message', 'title', 'group'));
             }
         }
@@ -177,6 +184,7 @@ class Toaster
     public function group($name)
     {
         $group = new ToasterGroup($name);
+        $this->currentGroup = $name;
 
         $this->groups->push($group);
 
