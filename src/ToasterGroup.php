@@ -19,7 +19,7 @@ class ToasterGroup
      */
     public $messages;
 
-    public function __construct(Toaster $toaster, $name = 'default')
+    public function __construct($name = 'default')
     {
         $this->name = $name;
         $this->properties = [
