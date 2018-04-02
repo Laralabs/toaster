@@ -69,7 +69,7 @@ class ToasterGroup
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);
 
-            return $this->flash();
+            return app('toaster')->flash();
         }
 
         abort(500, 'Use the add() function to add a message before attempting to modify it');

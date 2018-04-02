@@ -385,7 +385,7 @@ class Toaster
         $payload = ['data' => []];
 
         foreach ($this->groups->all() as $group) {
-            $properties = array_merge($group->properties, $group->messages->toArray());
+            $properties = array_merge($group->properties, ['messages' => $group->messages->toArray()]);
             $payload['data'][$group->name] = $properties;
         }
 
