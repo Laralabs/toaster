@@ -97,7 +97,7 @@ class ToasterViewBinder implements ViewBinder
                 (isset($props['width']) ? 'width="' . $props['width'] . '" ' : '') .
                 (isset($props['position']) ? 'position="' . $props['position'] . '" ' : '') .
                 (isset($props['animation_type']) ? 'animation-type="' . $props['animation_type'] . '" ' : '') .
-                (isset($props['max']) ? 'max="' . $props['max'] . '" ' : '') .
+                (isset($props['max']) ? ':max="' . $props['max'] . '" ' : '') .
                 (isset($props['reverse']) ? 'reverse="' . $props['reverse'] . '" ' : '') .
                 '>' . '</notifications>';
         }

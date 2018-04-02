@@ -45,11 +45,22 @@ class ToasterGroup
         return $this->messages->push($toast);
     }
 
+    /**
+     * Update property.
+     *
+     * @param $key
+     * @param $value
+     */
     public function updateProperty($key, $value)
     {
         $this->properties[$key] = $value;
     }
 
+    /**
+     * Update properties.
+     *
+     * @param $properties
+     */
     public function updateProperties($properties)
     {
         foreach ($properties as $key => $value) {
