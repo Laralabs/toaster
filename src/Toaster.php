@@ -178,7 +178,9 @@ class Toaster
     {
         $group = new ToasterGroup($name);
 
-        return $this->groups->push($group);
+        $this->groups->push($group);
+
+        return $this;
     }
 
     /**
