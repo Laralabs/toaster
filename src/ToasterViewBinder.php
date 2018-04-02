@@ -50,8 +50,6 @@ class ToasterViewBinder implements ViewBinder
             $js = 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.'.key($data).' = ';
             $js = $js.json_encode($data[key($data)]);
 
-            $this->store->forget('toaster');
-
             return $js;
         }
 
@@ -69,6 +67,8 @@ class ToasterViewBinder implements ViewBinder
                 unset($properties['messages']);
                 $components[$group] = $properties;
             }
+
+            $this->store->forget('toaster');
 
             return $components;
         }
