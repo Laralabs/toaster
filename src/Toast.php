@@ -5,6 +5,13 @@ namespace Laralabs\Toaster;
 class Toast implements \ArrayAccess
 {
     /**
+     * The group it belongs to.
+     *
+     * @var string
+     */
+    public $group;
+
+    /**
      * The body of the message.
      *
      * @var string
@@ -16,14 +23,7 @@ class Toast implements \ArrayAccess
      *
      * @var string
      */
-    public $theme = 'info';
-
-    /**
-     * Whether the message should auto-hide.
-     *
-     * @var bool
-     */
-    public $closeBtn = false;
+    public $type = 'info';
 
     /**
      * The message title.

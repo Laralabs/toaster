@@ -21,7 +21,7 @@ class Toaster
     /**
      * @var \Illuminate\Support\Collection
      */
-    public $messages;
+    public $groups;
 
     /**
      * @var int
@@ -46,7 +46,7 @@ class Toaster
     public function __construct(SessionStore $session)
     {
         $this->session = $session;
-        $this->messages = collect();
+        $this->groups = collect();
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
         $this->limit = config('toaster.max_toasts');
@@ -60,7 +60,9 @@ class Toaster
      */
     public function info()
     {
-        return $this->updateLastMessage(['theme' => 'info']);
+        $this->groups->last()->updateLastMessage(['type' => 'info']);
+
+        return $this;
     }
 
     /**
@@ -70,7 +72,9 @@ class Toaster
      */
     public function success()
     {
-        return $this->updateLastMessage(['theme' => 'success']);
+        $this->groups->last()->updateLastMessage(['type' => 'success']);
+
+        return $this;
     }
 
     /**
@@ -80,7 +84,9 @@ class Toaster
      */
     public function error()
     {
-        return $this->updateLastMessage(['theme' => 'error']);
+        $this->groups->last()->updateLastMessage(['type' => 'error']);
+
+        return $this;
     }
 
     /**
@@ -90,17 +96,9 @@ class Toaster
      */
     public function warning()
     {
-        return $this->updateLastMessage(['theme' => 'warning']);
-    }
+        $this->groups->last()->updateLastMessage(['type' => 'warn']);
 
-    /**
-     * Set message close button flag to true.
-     *
-     * @return $this
-     */
-    public function important()
-    {
-        return $this->updateLastMessage(['closeBtn' => true]);
+        return $this;
     }
 
     /**
@@ -112,7 +110,9 @@ class Toaster
      */
     public function title($value)
     {
-        return $this->updateLastMessage(['title' => $value]);
+        $this->groups->last()->updateLastMessage(['title' => $value]);
+
+        return $this;
     }
 
     /**
@@ -134,23 +134,168 @@ class Toaster
     /**
      * Add a message to the toaster.
      *
-     * @param string|null $message
-     * @param bool|false  $closeBtn
-     * @param string      $theme
-     * @param string      $title
-     * @param string|null $expires
-     *
-     * @return $this
+     * @param $message
+     * @param null $title
+     * @param null $properties
+     * @param null $group
+     * @return Toaster
+     * @throws \Exception
      */
-    public function add($message, $theme = 'info', $closeBtn = false, $title = '', $expires = null)
+    public function add($message, $title = null, $properties = null, $group = null)
     {
         if (!$message instanceof Toast) {
-            $message = new Toast(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
+            if (is_array($properties)) {
+                $properties['message'] = $message;
+                $properties['title'] = $title;
+                $properties['group'] = $group;
+                $message = new Toast($properties);
+            } else {
+                $message = new Toast(compact('message', 'title', 'group'));
+            }
         }
 
-        $this->messages->push($message);
+        if (!is_null($group)) {
+            if ($this->groups->where('name', '=', $group)->first()->add($message)) {
+                return $this->flash();
+            } else {
+                throw new \Exception('No group found with the specified name');
+            }
+
+        }
+
+        $this->groups->last()->add($message);
 
         return $this->flash();
+    }
+
+    /**
+     * Create a new group.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function group($name)
+    {
+        $group = new ToasterGroup($name);
+
+        return $this->groups->push($group);
+    }
+
+    /**
+     * Set group width.
+     *
+     * @param string $width
+     * @return mixed
+     */
+    public function width(string $width)
+    {
+        $this->groups->last()->updateProperty('width', $width);
+
+        return $this;
+    }
+
+    /**
+     * Set group classes.
+     *
+     * @param array $classes
+     * @return mixed
+     */
+    public function classes(array $classes)
+    {
+        $this->groups->last()->updateProperty('classes', $classes);
+
+        return $this;
+    }
+
+    /**
+     * Set group animation type.
+     *
+     * @param string $animationType
+     * @return mixed
+     */
+    public function animationType(string $animationType)
+    {
+        $this->groups->last()->updateProperty('animation_type', $animationType);
+
+        return $this;
+    }
+
+    /**
+     * Set group animation name.
+     *
+     * @param string $animationName
+     * @return mixed
+     */
+    public function animationName(string $animationName)
+    {
+        $this->groups->last()->updateProperty('animation_name', $animationName);
+
+        return $this;
+    }
+
+    /**
+     * Set group velocity config.
+     *
+     * @param string $velocityConfig
+     * @return mixed
+     */
+    public function velocityConfig(string $velocityConfig)
+    {
+        $this->groups->last()->updateProperty('velocity_config', $velocityConfig);
+
+        return $this;
+    }
+
+    /**
+     * Set group position.
+     *
+     * @param string $position
+     * @return mixed
+     */
+    public function position(string $position)
+    {
+        $this->groups->last()->updateProperty('position', $position);
+
+        return $this;
+    }
+
+    /**
+     * Set group max.
+     *
+     * @param int $max
+     * @return mixed
+     */
+    public function max(int $max)
+    {
+        $this->groups->last()->updateProperty('max', $max);
+
+        return $this;
+    }
+
+    /**
+     * Set group reverse order.
+     *
+     * @param bool $reverse
+     * @return mixed
+     */
+    public function reverse(bool $reverse)
+    {
+        $this->groups->last()->updateProperty('reverse', $reverse);
+
+        return $this;
+    }
+
+    /**
+     * Set group properties.
+     *
+     * @param array $properties
+     * @return mixed
+     */
+    public function properties(array $properties)
+    {
+        $this->groups->last()->updateProperties($properties);
+
+        return $this;
     }
 
     /**
@@ -160,9 +305,11 @@ class Toaster
      *
      * @return Toaster
      */
-    public function update($attributes)
+    public function update(array $attributes)
     {
-        return $this->updateLastMessage($attributes);
+        $this->groups->last()->updateLastMessage($attributes);
+
+        return $this;
     }
 
     /**
@@ -184,13 +331,13 @@ class Toaster
     }
 
     /**
-     * Clear all registered messages.
+     * Clear all registered groups.
      *
      * @return $this
      */
     public function clear()
     {
-        $this->messages = collect();
+        $this->groups = collect();
 
         return $this;
     }
@@ -199,7 +346,7 @@ class Toaster
      * Set toast expiry time values.
      *
      * @return $this
-     */
+     *
     protected function setExpires()
     {
         $expires = $this->lifetime;
@@ -212,24 +359,34 @@ class Toaster
         }
 
         return $this;
-    }
+    }*/
 
     /**
      * Flash all messages to the session.
      */
     protected function flash()
     {
-        $this->setExpires();
+        //$this->setExpires();
 
-        $this->session->flash('toaster', [
-            'data' => [
-                'lifetime'  => $this->lifetime,
-                'maxToasts' => $this->limit,
-                'messages'  => $this->messages->toArray(),
-                'position'  => $this->position,
-            ],
-        ]);
+        $this->session->flash('toaster', $this->parse());
 
         return $this;
+    }
+
+    /**
+     * Parse groups and messages into array.
+     *
+     * @return array
+     */
+    protected function parse()
+    {
+        $payload = ['data' => []];
+
+        foreach ($this->groups->all() as $group) {
+            $properties = array_merge($group->properties, $group->messages->toArray());
+            $payload['data'][$group->name] = $properties;
+        }
+
+        return $payload;
     }
 }

@@ -58,6 +58,21 @@ class ToasterViewBinder implements ViewBinder
         return 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.data = {};';
     }
 
+    protected function generateComponents()
+    {
+        if ($this->store->has('toaster')) {
+            $data = $this->store->get('toaster');
+            $components = [];
+
+            foreach ($data['data'] as $group => $properties) {
+                unset($properties['messages']);
+                $components[$group] = $properties;
+            }
+
+            return $components;
+        }
+    }
+
     /**
      * Return the JavaScript variable to the view.
      *
@@ -66,5 +81,24 @@ class ToasterViewBinder implements ViewBinder
     public function bind()
     {
         return '<script type="text/javascript">'.$this->generateJs().'</script>';
+    }
+
+    public function component()
+    {
+        $components = '';
+
+        foreach ($this->generateComponents() as $group => $props) {
+            $components = $components . ' ' .
+                '<notifications ' .
+                isset($props['name']) ? 'group="' . $props['name'] . '" ' : '' .
+                isset($props['width']) ? 'width="' . $props['width'] . '" ' : '' .
+                isset($props['position']) ? 'position="' . $props['position'] . '" ' : '' .
+                isset($props['animation_type']) ? 'animation-type="' . $props['animation_type'] . '" ' : '' .
+                isset($props['max']) ? 'max="' . $props['max'] . '" ' : '' .
+                isset($props['reverse']) ? 'reverse="' . $props['reverse'] . '" ' : '' .
+                '>' . '</notifications>';
+        }
+
+        return $components;
     }
 }
