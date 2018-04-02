@@ -366,7 +366,7 @@ class Toaster
     /**
      * Flash all messages to the session.
      */
-    protected function flash()
+    public function flash()
     {
         //$this->setExpires();
 
