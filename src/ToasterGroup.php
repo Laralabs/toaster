@@ -64,7 +64,7 @@ class ToasterGroup
      *
      * @return $this
      */
-    protected function updateLastMessage($overrides = [])
+    public function updateLastMessage($overrides = [])
     {
         if ($this->messages->count() > 0) {
             $this->messages->last()->update($overrides);

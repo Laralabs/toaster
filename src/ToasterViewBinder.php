@@ -60,9 +60,10 @@ class ToasterViewBinder implements ViewBinder
 
     protected function generateComponents()
     {
+        $components = [];
+
         if ($this->store->has('toaster')) {
             $data = $this->store->get('toaster');
-            $components = [];
 
             foreach ($data['data'] as $group => $properties) {
                 unset($properties['messages']);
@@ -71,6 +72,8 @@ class ToasterViewBinder implements ViewBinder
 
             return $components;
         }
+
+        return $components;
     }
 
     /**

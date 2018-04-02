@@ -47,7 +47,7 @@ class ToasterServiceProvider extends ServiceProvider
             return "<?php echo app('".ToasterViewBinder::class."')->bind(); ?>";
         });
 
-        Blade::directive('toaster-component', function () {
+        Blade::directive('toastcomponent', function () {
             return "<?php echo app('".ToasterViewBinder::class."')->component(); ?>";
         });
     }
