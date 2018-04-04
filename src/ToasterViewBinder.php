@@ -56,6 +56,11 @@ class ToasterViewBinder implements ViewBinder
         return 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.data = {};';
     }
 
+    /**
+     * Generate component data.
+     *
+     * @return array
+     */
     protected function generateComponents()
     {
         $components = [];
@@ -86,6 +91,11 @@ class ToasterViewBinder implements ViewBinder
         return '<script type="text/javascript">'.$this->generateJs().'</script>';
     }
 
+    /**
+     * Generate vue-notification component markup.
+     *
+     * @return string
+     */
     public function component()
     {
         $components = '';
@@ -99,7 +109,7 @@ class ToasterViewBinder implements ViewBinder
                 (isset($props['animation_type']) ? 'animation-type="' . $props['animation_type'] . '" ' : '') .
                 (isset($props['max']) ? ':max="' . $props['max'] . '" ' : '') .
                 (isset($props['reverse']) ? 'reverse="' . $props['reverse'] . '" ' : '') .
-                '>' . '</notifications>';
+                '>' . '</notifications>'.PHP_EOL;
         }
 
         return $components;

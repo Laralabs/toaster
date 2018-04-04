@@ -37,7 +37,12 @@ class Toast implements \ArrayAccess
      *
      * @var null
      */
-    public $expires = null;
+    public $duration = 3000;
+
+    /**
+     * @var int
+     */
+    public $speed = 300;
 
     /**
      * Create a new message instance.
