@@ -122,6 +122,44 @@ class Toaster
     }
 
     /**
+     * Set message as important.
+     *
+     * @return $this
+     */
+    public function important()
+    {
+        $this->groups->last()->updateLastMessage(['duration' => -1]);
+
+        return $this;
+    }
+
+    /**
+     * Set message duration.
+     *
+     * @param $value int
+     * @return $this
+     */
+    public function duration(int $value)
+    {
+        $this->groups->last()->updateLastMessage(['duration' => $value]);
+
+        return $this;
+    }
+
+    /**
+     * Set message animation speed.
+     *
+     * @param $value int
+     * @return $this
+     */
+    public function speed(int $value)
+    {
+        $this->groups->last()->updateLastMessage(['speed' => $value]);
+
+        return $this;
+    }
+
+    /**
      * Set message expiry time.
      *
      * @param $value
@@ -353,30 +391,32 @@ class Toaster
     }
 
     /**
-     * Set toast expiry time values.
+     * Stagger messages with lifetime and interval
      *
-     * @return $this
      *
-    protected function setExpires()
+     * @param bool $all
+     */
+    protected function stagger($all = true)
     {
-        $expires = $this->lifetime;
+        $current = $this->lifetime;
 
-        foreach ($this->messages as $toast) {
-            if ($toast->expires === null) {
-                $toast->expires = $expires;
+        foreach ($this->groups->all() as $group) {
+            $current = $all ? $current : $this->lifetime;
+            foreach ($group->messages->all() as $message) {
+                $message->duration = $current + $this->interval;
+                $current = $current + $this->interval;
             }
-            $expires = $expires + $this->interval;
         }
-
-        return $this;
-    }*/
+    }
 
     /**
      * Flash all messages to the session.
      */
     public function flash()
     {
-        //$this->setExpires();
+        if (config('toaster.toast_stagger')) {
+            $this->stagger();
+        }
 
         $this->session->flash('toaster', $this->parse());
 
