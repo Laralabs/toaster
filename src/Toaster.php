@@ -390,10 +390,10 @@ class Toaster
      */
     protected function stagger($all = true)
     {
-        $current = $this->lifetime;
+        $current = $this->lifetime - $this->interval;
 
         foreach ($this->groups->all() as $group) {
-            $current = $all ? $current : $this->lifetime;
+            $current = $all ? $current : $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $message->duration = $current + $this->interval;
                 $current = $current + $this->interval;

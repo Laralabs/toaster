@@ -34,7 +34,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('cheese', $toast->message);
         $this->assertEquals('info', $toast->type);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals($this->lifetime + $this->interval, $toast->duration);
+        $this->assertEquals($this->lifetime, $toast->duration);
         $this->assertEquals($this->animationSpeed, $toast->speed);
 
         $this->assertSessionHas('toaster', [
@@ -48,7 +48,8 @@ class ToasterTest extends TestCase
                     'position' => $this->position,
                     'max' => $this->limit,
                     'reverse' => $this->reverse,
-                    'messages' => $this->toaster->groups->first()->messages->toArray()
+                    'messages' => $this->toaster->groups->first()->messages->toArray(),
+                    'velocity_config' => 'velocity'
                 ]
             ],
         ]);
@@ -350,7 +351,7 @@ class ToasterTest extends TestCase
 
         $toast = $this->toaster->groups->first()->messages->first();
 
-        $this->assertEquals($this->lifetime + $this->interval, $toast->duration);
+        $this->assertEquals($this->lifetime, $toast->duration);
         $this->assertEquals($this->animationSpeed, $toast->speed);
 
         $this->toaster->clear();
@@ -552,7 +553,7 @@ class ToasterTest extends TestCase
     {
         $this->expectExceptionMessage('Use the add() function to add a message before attempting to modify it');
 
-        $this->toaster->success();
+        $this->toaster->group('toastie')->success();
     }
 
     protected function assertSessionHas($name, $value = null)
