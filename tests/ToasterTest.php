@@ -336,7 +336,7 @@ class ToasterTest extends TestCase
             ->add('ham')
             ->add('cheese');
 
-        $this->assertCount(2, $this->toaster->groups->first()->messages->count());
+        $this->assertCount(2, $this->toaster->groups->first()->messages);
 
         $this->toaster->clear();
     }
@@ -350,7 +350,7 @@ class ToasterTest extends TestCase
 
         $toast = $this->toaster->groups->first()->messages->first();
 
-        $this->assertEquals($this->lifetime, $toast->duration);
+        $this->assertEquals($this->lifetime + $this->interval, $toast->duration);
         $this->assertEquals($this->animationSpeed, $toast->speed);
 
         $this->toaster->clear();
