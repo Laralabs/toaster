@@ -138,12 +138,16 @@ class Toaster
      *
      * @param $value int
      * @return $this
+     * @throws \InvalidArgumentException
      */
     public function duration(int $value)
     {
-        $this->groups->last()->updateLastMessage(['duration' => $value]);
+        if (is_int($value)) {
+            $this->groups->last()->updateLastMessage(['duration' => $value]);
+            return $this;
+        }
 
-        return $this;
+        throw new \InvalidArgumentException('Argument passed to expires() must be a valid integer (milliseconds)');
     }
 
     /**
@@ -157,22 +161,6 @@ class Toaster
         $this->groups->last()->updateLastMessage(['speed' => $value]);
 
         return $this;
-    }
-
-    /**
-     * Set message expiry time.
-     *
-     * @param $value
-     *
-     * @return Toaster
-     */
-    public function expires($value)
-    {
-        if (is_int($value)) {
-            return $this->updateLastMessage(['expires' => $value]);
-        }
-
-        abort(500, 'Argument passed to expires() must be a valid integer (milliseconds)');
     }
 
     /**
@@ -199,13 +187,16 @@ class Toaster
             }
         }
 
+        if ($this->groups->count() < 1) {
+            $this->group($this->currentGroup);
+        }
+
         if (!is_null($group)) {
             if ($this->groups->where('name', '=', $group)->first()->add($message)) {
                 return $this->flash();
             } else {
                 throw new \Exception('No group found with the specified name');
             }
-
         }
 
         $this->groups->last()->add($message);
@@ -386,6 +377,7 @@ class Toaster
     public function clear()
     {
         $this->groups = collect();
+        $this->flash();
 
         return $this;
     }
@@ -411,11 +403,13 @@ class Toaster
 
     /**
      * Flash all messages to the session.
+     *
+     * @return $this
      */
     public function flash()
     {
         if (config('toaster.toast_stagger')) {
-            $this->stagger();
+            config('toaster.toast_stagger_all') ? $this->stagger() : $this->stagger(false);
         }
 
         $this->session->flash('toaster', $this->parse());
@@ -433,8 +427,7 @@ class Toaster
         $payload = ['data' => []];
 
         foreach ($this->groups->all() as $group) {
-            $properties = array_merge($group->properties, ['messages' => $group->messages->toArray()]);
-            $payload['data'][$group->name] = $properties;
+            $payload['data'][$group->name] = array_merge($group->properties, ['messages' => $group->messages->toArray()]);
         }
 
         return $payload;

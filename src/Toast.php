@@ -37,12 +37,12 @@ class Toast implements \ArrayAccess
      *
      * @var null
      */
-    public $duration = 3000;
+    public $duration;
 
     /**
      * @var int
      */
-    public $speed = 300;
+    public $speed;
 
     /**
      * Create a new message instance.
@@ -51,6 +51,9 @@ class Toast implements \ArrayAccess
      */
     public function __construct($attributes = [])
     {
+        $attributes['duration'] = isset($attributes['duration']) ? $attributes['duration'] : config('toaster.toast_lifetime');
+        $attributes['speed'] = isset($attributes['speed']) ? $attributes['speed'] : config('toaster.animation_speed');
+
         $this->update($attributes);
     }
 

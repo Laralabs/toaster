@@ -35,6 +35,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Toast Stagger All
+    |--------------------------------------------------------------------------
+    |
+    | If true, stagger all toasts starting with the first group added.
+    | If false, reset the lifetime for each group.
+    |
+    */
+    'toast_stagger_all' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Toast Lifetime
     |--------------------------------------------------------------------------
     |
@@ -103,5 +114,15 @@ return [
     | The animation type used, i.e. 'css' or 'velocity'.
     |
     */
-    'animation_type' => 'velocity',
+    'animation_type' => 'css',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Animation Speed
+    |--------------------------------------------------------------------------
+    |
+    | The animation type used, i.e. 'css' or 'velocity'.
+    |
+    */
+    'animation_speed' => 300,
 ];

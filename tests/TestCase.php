@@ -14,34 +14,59 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected $session;
 
     /**
-     * @var
+     * @var \Laralabs\Toaster\Toaster
      */
     protected $toaster;
 
     /**
-     * @var
+     * @var \Laralabs\Toaster\ToasterViewBinder
      */
     protected $binder;
 
     /**
-     * @var
+     * @var int
      */
     public $limit;
 
     /**
-     * @var
+     * @var string
      */
     public $position;
 
     /**
-     * @var
+     * @var int
      */
     public $lifetime;
 
     /**
-     * @var
+     * @var int
      */
     public $interval;
+
+    /**
+     * @var string
+     */
+    public $width;
+
+    /**
+     * @var array
+     */
+    public $classes;
+
+    /**
+     * @var bool
+     */
+    public $reverse;
+
+    /**
+     * @var
+     */
+    public $animationType;
+
+    /**
+     * @var
+     */
+    public $animationSpeed;
 
     public function setUp()
     {
@@ -56,6 +81,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->position = config('toaster.toast_position');
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
+        $this->width = config('toaster.toast_width');
+        $this->classes = config('toaster.toast_classes');
+        $this->reverse = config('toaster.reverse_order');
+        $this->animationType = config('toaster.animation_type');
+        $this->animationSpeed = config('toaster.animation_speed');
     }
 
     protected function getPackageProviders($app)

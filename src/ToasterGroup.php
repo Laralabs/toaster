@@ -60,12 +60,16 @@ class ToasterGroup
      * Update properties.
      *
      * @param $properties
+     *
+     * @return $this;
      */
     public function updateProperties($properties)
     {
         foreach ($properties as $key => $value) {
             $properties[$key] = $value;
         }
+
+        return app('toaster')->flash();
     }
 
     /**
