@@ -34,7 +34,7 @@ class ToasterTest extends TestCase
         $this->assertEquals('cheese', $toast->message);
         $this->assertEquals('info', $toast->type);
         $this->assertEquals('', $toast->title);
-        $this->assertEquals($this->lifetime, $toast->duration);
+        $this->assertEquals($this->lifetime + $this->interval, $toast->duration);
         $this->assertEquals($this->animationSpeed, $toast->speed);
 
         $this->assertSessionHas('toaster', [

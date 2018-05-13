@@ -66,7 +66,7 @@ class ToasterGroup
     public function updateProperties($properties)
     {
         foreach ($properties as $key => $value) {
-            $properties[$key] = $value;
+            $this->properties[$key] = $value;
         }
 
         return app('toaster')->flash();
@@ -78,6 +78,7 @@ class ToasterGroup
      * @param array $overrides
      *
      * @return $this
+     * @throws \Exception
      */
     public function updateLastMessage($overrides = [])
     {
@@ -87,6 +88,6 @@ class ToasterGroup
             return app('toaster')->flash();
         }
 
-        abort(500, 'Use the add() function to add a message before attempting to modify it');
+        throw new \Exception('Use the add() function to add a message before attempting to modify it');
     }
 }

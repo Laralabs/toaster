@@ -178,7 +178,7 @@ class Toaster
         if (!$message instanceof Toast) {
             if (is_array($properties)) {
                 $properties['message'] = $message;
-                $properties['title'] = $title;
+                $properties['title'] = is_null($title) ? isset($properties['title']) ? $properties['title'] : $title : $title;
                 $properties['group'] = is_null($group) ? $this->currentGroup : $group;
                 $message = new Toast($properties);
             } else {
