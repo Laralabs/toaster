@@ -303,13 +303,14 @@ class ToasterTest extends TestCase
             $current = $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $current = $current + $this->interval;
-                $this->assertEquals($current, $message->duration);
+                $message->customDuration ? null : $this->assertEquals($current, $message->duration);
+                $current = $message->customDuration ? $current - $this->interval : $current;
             }
         }
     }
 
     /** @test */
-    public function it_can_stagger_all_groups()
+    public function it_can_stagger_all_groups_and_retain_custom_duration()
     {
         Config::set('toaster.toast_stagger_all', true);
 
@@ -317,7 +318,7 @@ class ToasterTest extends TestCase
             ->add('ham')
             ->add('cheese')
             ->group('toastie-two')
-            ->add('cheese')
+            ->add('cheese')->duration(10000)
             ->add('tomato');
 
         $current = $this->lifetime - $this->interval;
@@ -325,7 +326,8 @@ class ToasterTest extends TestCase
             $current = config('toaster.toast_stagger_all') ? $current : $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $current = $current + $this->interval;
-                $this->assertEquals($current, $message->duration);
+                $message->customDuration ? $this->assertEquals(10000, $message->duration) : $this->assertEquals($current, $message->duration);
+                $current = $message->customDuration ? $current - $this->interval : $current;
             }
         }
     }
@@ -367,6 +369,7 @@ class ToasterTest extends TestCase
         $toast = $this->toaster->groups->first()->messages->first();
 
         $this->assertEquals('cheese', $toast->message);
+        $this->assertTrue($toast->customDuration);
         $this->assertEquals(5000, $toast->duration);
         $this->assertEquals(800, $toast->speed);
 

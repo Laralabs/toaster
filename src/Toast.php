@@ -45,12 +45,18 @@ class Toast implements \ArrayAccess
     public $speed;
 
     /**
+     * @var
+     */
+    public $customDuration;
+
+    /**
      * Create a new message instance.
      *
      * @param array $attributes
      */
     public function __construct($attributes = [])
     {
+        $attributes['customDuration'] = isset($attributes['duration']) ? true : false;
         $attributes['duration'] = isset($attributes['duration']) ? $attributes['duration'] : config('toaster.toast_lifetime');
         $attributes['speed'] = isset($attributes['speed']) ? $attributes['speed'] : config('toaster.animation_speed');
 

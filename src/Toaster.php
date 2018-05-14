@@ -143,7 +143,7 @@ class Toaster
     public function duration(int $value)
     {
         if (is_int($value)) {
-            $this->groups->last()->updateLastMessage(['duration' => $value]);
+            $this->groups->last()->updateLastMessage(['duration' => $value, 'customDuration' => true]);
             return $this;
         }
 
@@ -352,24 +352,6 @@ class Toaster
     }
 
     /**
-     * Modify the most recently added message.
-     *
-     * @param array $overrides
-     *
-     * @return $this
-     */
-    protected function updateLastMessage($overrides = [])
-    {
-        if ($this->messages->count() > 0) {
-            $this->messages->last()->update($overrides);
-
-            return $this->flash();
-        }
-
-        abort(500, 'Use the add() function to add a message before attempting to modify it');
-    }
-
-    /**
      * Clear all registered groups.
      *
      * @return $this
@@ -396,7 +378,8 @@ class Toaster
             $current = $all ? $current : $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $current = $current + $this->interval;
-                $message->duration = $message->duration != $this->lifetime && $message->duration != $current ? $message->duration : $current;
+                $message->duration = $message->customDuration ? $message->duration : $current;
+                $current = $message->customDuration ? $current - $this->interval : $current;
             }
         }
     }
