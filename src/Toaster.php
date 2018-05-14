@@ -395,8 +395,8 @@ class Toaster
         foreach ($this->groups->all() as $group) {
             $current = $all ? $current : $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
-                $message->duration = $current + $this->interval;
                 $current = $current + $this->interval;
+                $message->duration = $message->duration != $this->lifetime && $message->duration != $current ? $message->duration : $current;
             }
         }
     }

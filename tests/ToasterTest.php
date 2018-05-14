@@ -373,6 +373,82 @@ class ToasterTest extends TestCase
         $this->toaster->clear();
     }
 
+    /** @test */
+    public function it_sets_info_toast()
+    {
+        $this->toaster->group('toastie')->add('cheese')->info();
+
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
+
+        $toast = $this->toaster->groups->first()->messages->first();
+
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('info', $toast->type);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_sets_success_toast()
+    {
+        $this->toaster->group('toastie')->add('cheese')->success();
+
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
+
+        $toast = $this->toaster->groups->first()->messages->first();
+
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('success', $toast->type);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_sets_warning_toast()
+    {
+        $this->toaster->group('toastie')->add('cheese')->warning();
+
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
+
+        $toast = $this->toaster->groups->first()->messages->first();
+
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('warn', $toast->type);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_sets_error_toast()
+    {
+        $this->toaster->group('toastie')->add('cheese')->error();
+
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
+
+        $toast = $this->toaster->groups->first()->messages->first();
+
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('error', $toast->type);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_sets_important_toast()
+    {
+        $this->toaster->group('toastie')->add('cheese')->important();
+
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
+
+        $toast = $this->toaster->groups->first()->messages->first();
+
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('info', $toast->type);
+        $this->assertEquals(-1, $toast->duration);
+
+        $this->toaster->clear();
+    }
+
     /**
     public function it_sets_multiple_null_expires_with_interval_and_retains_custom_values()
     {
