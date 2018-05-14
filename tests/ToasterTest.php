@@ -265,7 +265,7 @@ class ToasterTest extends TestCase
             'message' => 'cheese',
             'type' => 'warn',
             'title' => 'Toastie Ingredients',
-            'duration' => $this->lifetime,
+            'duration' => $this->lifetime + $this->interval,
             'speed' => $this->animationSpeed
         ];
 
@@ -300,7 +300,7 @@ class ToasterTest extends TestCase
             ->add('tomato');
 
         foreach ($this->toaster->groups->all() as $group) {
-            $current = $this->lifetime;
+            $current = $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $current = $current + $this->interval;
                 $this->assertEquals($current, $message->duration);
@@ -320,9 +320,9 @@ class ToasterTest extends TestCase
             ->add('cheese')
             ->add('tomato');
 
-        $current = $this->lifetime;
+        $current = $this->lifetime - $this->interval;
         foreach ($this->toaster->groups->all() as $group) {
-            $current = config('toaster.toast_stagger_all') ? $current : $this->lifetime;
+            $current = config('toaster.toast_stagger_all') ? $current : $this->lifetime - $this->interval;
             foreach ($group->messages->all() as $message) {
                 $current = $current + $this->interval;
                 $this->assertEquals($current, $message->duration);
