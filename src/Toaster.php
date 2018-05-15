@@ -128,7 +128,7 @@ class Toaster
      */
     public function important()
     {
-        $this->groups->last()->updateLastMessage(['duration' => -1]);
+        $this->groups->last()->updateLastMessage(['duration' => -1, 'customDuration' => true]);
 
         return $this;
     }

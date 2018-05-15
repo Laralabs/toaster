@@ -452,168 +452,21 @@ class ToasterTest extends TestCase
         $this->toaster->clear();
     }
 
-    /**
-    public function it_sets_multiple_null_expires_with_interval_and_retains_custom_values()
-    {
-        $this->toaster->add('Beans on Toast');
-        $this->toaster->add('Egg on Toast')->expires(9000);
-        $this->toaster->add('Cheese on Toast');
-
-        $this->assertCount(3, $this->toaster->messages);
-        $expires = $this->lifetime;
-        $counter = 1;
-        foreach ($this->toaster->messages as $toast) {
-            if ($counter == 2) {
-                $this->assertEquals(9000, $toast->expires);
-            } else {
-                $this->assertEquals($expires, $toast->expires);
-            }
-            $expires = $expires + $this->interval;
-            $counter++;
-        }
-    }
-
-    public function it_generates_correctly_structured_json()
-    {
-        $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast');
-
-        $this->assertCount(2, $this->toaster->messages);
-
-        $validJson = 'window.toaster = window.toaster || {};toaster.data = {"lifetime":2000,"maxToasts":10,"messages":[{"message":"Beans on Toast","theme":"success","closeBtn":false,"title":"","expires":2000},{"message":"Egg on Toast","theme":"info","closeBtn":false,"title":"","expires":2500}],"position":"top right"}';
-        $this->assertEquals($validJson, $this->binder->generateJs());
-    }
-
-    public function it_displays_info_toast()
-    {
-        $this->toaster->add('Info on Toast')->info();
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Info on Toast', $toast->message);
-        $this->assertEquals('info', $toast->theme);
-        $this->assertEquals(false, $toast->closeBtn);
-        $this->assertEquals('', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
-
-    public function it_displays_success_toast()
-    {
-        $this->toaster->add('Success on Toast')->success();
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Success on Toast', $toast->message);
-        $this->assertEquals('success', $toast->theme);
-        $this->assertEquals(false, $toast->closeBtn);
-        $this->assertEquals('', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
-
-    public function it_displays_error_toast()
-    {
-        $this->toaster->add('Error on Toast')->error();
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Error on Toast', $toast->message);
-        $this->assertEquals('error', $toast->theme);
-        $this->assertEquals(false, $toast->closeBtn);
-        $this->assertEquals('', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
-
-    public function it_displays_warning_toast()
-    {
-        $this->toaster->add('Warning on Toast')->warning();
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Warning on Toast', $toast->message);
-        $this->assertEquals('warning', $toast->theme);
-        $this->assertEquals(false, $toast->closeBtn);
-        $this->assertEquals('', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
-
-    public function it_sets_close_button()
-    {
-        $this->toaster->add('Important Information on Toast')->important();
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Important Information on Toast', $toast->message);
-        $this->assertEquals('info', $toast->theme);
-        $this->assertEquals(true, $toast->closeBtn);
-        $this->assertEquals('', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
-
+    /** @test */
     public function it_sets_toast_title()
     {
-        $this->toaster->add('Information on Toast')->title('Toast is good for you');
+        $this->toaster->group('toastie')->add('cheese')->title('Toastie Ingredients');
 
-        $toast = $this->toaster->messages[0];
+        $this->assertCount(1, $this->toaster->groups->first()->messages);
 
-        $this->assertEquals('Information on Toast', $toast->message);
-        $this->assertEquals('info', $toast->theme);
-        $this->assertEquals(false, $toast->closeBtn);
-        $this->assertEquals('Toast is good for you', $toast->title);
-        $this->assertEquals(2000, $toast->expires);
-    }
+        $toast = $this->toaster->groups->first()->messages->first();
 
-    public function it_can_update_last_message_with_update_function()
-    {
-        $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->update(['theme' => 'error', 'closeBtn' => true, 'title' => 'It now has a title', 'expires' => 5000]);
-
-        $toast = $this->toaster->messages[0];
-
-        $this->assertEquals('Beans on Toast', $toast->message);
-        $this->assertEquals('error', $toast->theme);
-        $this->assertEquals(true, $toast->closeBtn);
-        $this->assertEquals('It now has a title', $toast->title);
-        $this->assertEquals(5000, $toast->expires);
-    }
-
-    public function it_clears_message_collection()
-    {
-        $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast');
-
-        $this->assertCount(2, $this->toaster->messages);
+        $this->assertEquals('cheese', $toast->message);
+        $this->assertEquals('info', $toast->type);
+        $this->assertEquals('Toastie Ingredients', $toast->title);
 
         $this->toaster->clear();
-
-        $this->assertCount(0, $this->toaster->messages);
     }
-
-    public function it_can_flash_data_to_session_store()
-    {
-        $this->toaster->add('Beans on Toast')->success();
-        $this->toaster->add('Egg on Toast');
-
-        $data = [
-            'data' => [
-                'lifetime'  => $this->lifetime,
-                'maxToasts' => $this->limit,
-                'messages'  => $this->toaster->messages->toArray(),
-                'position'  => $this->position,
-            ],
-        ];
-
-        $this->session->flash('toaster', $data);
-
-        $this->assertSessionHas('toaster', $data);
-    }
-
-    public function it_aborts_expires_non_integer()
-    {
-        $this->expectExceptionMessage('Argument passed to expires() must be a valid integer (milliseconds)');
-
-        $this->toaster->add('Beans on Toast')->expires('five minutes');
-    }
-     */
 
     /** @test */
     public function it_has_mandatory_message_argument()
