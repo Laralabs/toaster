@@ -3,6 +3,7 @@
 namespace Laralabs\Toaster;
 
 use Laralabs\Toaster\Interfaces\SessionStore;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class Toaster
 {
@@ -186,9 +187,10 @@ class Toaster
             $this->group($this->currentGroup);
         }
 
-        if ($this->groups->where('name', '=', $group)->first()->add($message)) {
+        try {
+            $this->groups->where('name', '=', $group)->first()->add($message);
             return $this->flash();
-        } else {
+        } catch (FatalThrowableError $e) {
             throw new \Exception('No group found with the specified name');
         }
     }
