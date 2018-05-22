@@ -272,7 +272,7 @@ class ToasterTest extends TestCase
         $this->toaster->group('toastie')->add('ham')
             ->group('toastie-two')
             ->add('cheese')
-            ->add('cheese', null, $properties, $properties['group']);
+            ->add('cheese', null, $properties);
 
         $group = $this->toaster->groups->first();
         $toast = $group->messages->last();
@@ -283,6 +283,28 @@ class ToasterTest extends TestCase
         foreach ($properties as $property => $value) {
             $this->assertEquals($value, $toast->$property);
         }
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_throws_exception_for_invalid_group()
+    {
+        $this->expectExceptionMessage('No group found with the specified name');
+
+        $properties = [
+            'group' => 'toastie-invalid-group',
+            'message' => 'cheese',
+            'type' => 'warn',
+            'title' => 'Toastie Ingredients',
+            'duration' => $this->lifetime + $this->interval,
+            'speed' => $this->animationSpeed
+        ];
+
+        $this->toaster->group('toastie')->add('ham')
+            ->group('toastie-two')
+            ->add('cheese')
+            ->add('cheese', null, $properties);
 
         $this->toaster->clear();
     }

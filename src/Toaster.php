@@ -110,11 +110,11 @@ class Toaster
     /**
      * Set message title.
      *
-     * @param $value
+     * @param $value string
      *
      * @return Toaster
      */
-    public function title($value)
+    public function title(string $value)
     {
         $this->groups->last()->updateLastMessage(['title' => $value]);
 
@@ -142,12 +142,9 @@ class Toaster
      */
     public function duration(int $value)
     {
-        if (is_int($value)) {
-            $this->groups->last()->updateLastMessage(['duration' => $value, 'customDuration' => true]);
-            return $this;
-        }
+        $this->groups->last()->updateLastMessage(['duration' => $value, 'customDuration' => true]);
 
-        throw new \InvalidArgumentException('Argument passed to expires() must be a valid integer (milliseconds)');
+        return $this;
     }
 
     /**
@@ -166,42 +163,34 @@ class Toaster
     /**
      * Add a message to the toaster.
      *
-     * @param $message
+     * @param $message string
      * @param null $title
      * @param null $properties
-     * @param null $group
      * @return Toaster
      * @throws \Exception
      */
-    public function add($message, $title = null, $properties = null, $group = null)
+    public function add(string $message, $title = null, $properties = null)
     {
-        if (!$message instanceof Toast) {
-            if (is_array($properties)) {
-                $properties['message'] = $message;
-                $properties['title'] = is_null($title) ? isset($properties['title']) ? $properties['title'] : $title : $title;
-                $properties['group'] = is_null($group) ? $this->currentGroup : $group;
-                $message = new Toast($properties);
-            } else {
-                $group = is_null($group) ? $this->currentGroup : $group;
-                $message = new Toast(compact('message', 'title', 'group'));
-            }
+        if (is_array($properties)) {
+            $properties['message'] = $message;
+            $properties['title'] = is_null($title) ? isset($properties['title']) ? $properties['title'] : $title : $title;
+            $properties['group'] = isset($properties['group']) ? $properties['group'] : $this->currentGroup;
+            $group = $properties['group'];
+            $message = new Toast($properties);
+        } else {
+            $group = $this->currentGroup;
+            $message = new Toast(compact('message', 'title', 'group'));
         }
 
         if ($this->groups->count() < 1) {
             $this->group($this->currentGroup);
         }
 
-        if (!is_null($group)) {
-            if ($this->groups->where('name', '=', $group)->first()->add($message)) {
-                return $this->flash();
-            } else {
-                throw new \Exception('No group found with the specified name');
-            }
+        if ($this->groups->where('name', '=', $group)->first()->add($message)) {
+            return $this->flash();
+        } else {
+            throw new \Exception('No group found with the specified name');
         }
-
-        $this->groups->last()->add($message);
-
-        return $this->flash();
     }
 
     /**
