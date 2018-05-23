@@ -495,7 +495,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
-        $validJson = 'window.toaster = window.toaster || {};toaster.data = {"toastie":{"name":"toastie","width":"300px","classes":[],"animation_type":"velocity","animation_name":null,"velocity_config":"velocity","position":"top right","max":10,"reverse":false,"messages":[{"group":"toastie","message":"ham","type":"success","title":"","duration":2000,"speed":300,"customDuration":null},{"group":"toastie","message":"cheese","type":"info","title":"","duration":2500,"speed":300,"customDuration":null}]}}';
+        $validJson = 'window.toaster = window.toaster || {};toaster.data = {"toastie":{"name":"toastie","width":"300px","classes":[],"animation_type":"css","animation_name":null,"velocity_config":"velocity","position":"top right","max":10,"reverse":false,"messages":[{"group":"toastie","message":"ham","type":"success","title":"","duration":2000,"speed":300,"customDuration":null},{"group":"toastie","message":"cheese","type":"info","title":"","duration":2500,"speed":300,"customDuration":null}]}}';
 
         $this->assertEquals($validJson, $this->binder->generateJs());
 
@@ -507,7 +507,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
-        $validComponent = '<notifications group="toastie" width="300px" position="top right" animation-type="velocity" :max="10" reverse="" ></notifications>';
+        $validComponent = '<notifications group="toastie" width="300px" position="top right" animation-type="css" :max="10" reverse="" ></notifications>';
 
         $this->assertEquals($validComponent, $this->binder->component());
     }
