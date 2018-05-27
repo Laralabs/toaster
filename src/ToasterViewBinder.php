@@ -102,16 +102,16 @@ class ToasterViewBinder implements ViewBinder
 
         foreach ($this->generateComponents() as $group => $props) {
             $components = $components.' '.
-                '<toaster '.
+                '<toaster-group '.
                 (isset($props['name']) ? 'group="'.$props['name'].'" ' : '').
                 (isset($props['width']) ? 'width="'.$props['width'].'" ' : '').
                 (isset($props['position']) ? 'position="'.$props['position'].'" ' : '').
                 (isset($props['animation_type']) ? 'animation-type="'.$props['animation_type'].'" ' : '').
                 (isset($props['max']) ? ':max="'.$props['max'].'" ' : '').
                 (isset($props['reverse']) ? 'reverse="'.$props['reverse'].'" ' : '').
-                '>'.'</toaster>'.PHP_EOL;
+                '>'.'</toaster-group>'.PHP_EOL;
         }
 
-        return $components;
+        return $components.'<toaster-logic></toaster-logic>';
     }
 }

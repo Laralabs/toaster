@@ -504,7 +504,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
-        $validComponent = ' <toaster group="toastie" width="300px" position="top right" animation-type="css" :max="10" reverse="" ></toaster>'.PHP_EOL;
+        $validComponent = ' <toaster-group group="toastie" width="300px" position="top right" animation-type="css" :max="10" reverse="" ></toaster-group>'.PHP_EOL.'<toaster-logic></toaster-logic>';
 
         $this->assertEquals($validComponent, $this->binder->component());
     }
