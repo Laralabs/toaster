@@ -2,7 +2,7 @@
 
 namespace Laralabs\Toaster;
 
-class Toast implements \ArrayAccess
+class Toast
 {
     /**
      * The group it belongs to.
@@ -79,53 +79,5 @@ class Toast implements \ArrayAccess
         }
 
         return $this;
-    }
-
-    /**
-     * Whether the given offset exists.
-     *
-     * @param mixed $offset
-     *
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->$offset);
-    }
-
-    /**
-     * Fetch the offset.
-     *
-     * @param mixed $offset
-     *
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->$offset;
-    }
-
-    /**
-     * Assign the offset.
-     *
-     * @param mixed $offset
-     *
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->$offset = $value;
-    }
-
-    /**
-     * Unset the offset.
-     *
-     * @param mixed $offset
-     *
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        //
     }
 }
