@@ -21,7 +21,7 @@ Full documentation can be found at the link below:
 ## Preview
 > Example of Toaster being used with [laralabs-vue-toaster](https://github.com/Laralabs/vue-toaster), this setup is included within the documentation.
 <p align="center">
-    <img src="https://docs.laralabs.uk/toaster/images/toasterexample3.gif" height="177px" width="320px" />
+    <img src="https://docs.laralabs.uk/toaster/images/toasterexample3.gif" height="226px" width="408px" />
 </p>
 
 ## Demo
