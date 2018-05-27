@@ -54,10 +54,13 @@ class ToasterGroup
      *
      * @param $key
      * @param $value
+     * @return $this
      */
     public function updateProperty($key, $value)
     {
         $this->properties[$key] = $value;
+
+        return app('toaster')->flash();
     }
 
     /**
