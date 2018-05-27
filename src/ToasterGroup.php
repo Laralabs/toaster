@@ -42,7 +42,7 @@ class ToasterGroup
     /**
      * @param $toast
      *
-     * @return $this
+     * @return \Illuminate\Support\Collection
      */
     public function add($toast)
     {
@@ -55,7 +55,7 @@ class ToasterGroup
      * @param $key
      * @param $value
      *
-     * @return $this
+     * @return \Laralabs\Toaster\Toaster
      */
     public function updateProperty($key, $value)
     {
@@ -69,7 +69,7 @@ class ToasterGroup
      *
      * @param $properties
      *
-     * @return $this;
+     * @return \Laralabs\Toaster\Toaster
      */
     public function updateProperties($properties)
     {
@@ -87,7 +87,7 @@ class ToasterGroup
      *
      * @throws \Exception
      *
-     * @return $this
+     * @return \Laralabs\Toaster\Toaster
      */
     public function updateLastMessage($overrides = [])
     {
