@@ -5,6 +5,13 @@ namespace Laralabs\Toaster;
 class Toast implements \ArrayAccess
 {
     /**
+     * The group it belongs to.
+     *
+     * @var string
+     */
+    public $group;
+
+    /**
      * The body of the message.
      *
      * @var string
@@ -16,14 +23,7 @@ class Toast implements \ArrayAccess
      *
      * @var string
      */
-    public $theme = 'info';
-
-    /**
-     * Whether the message should auto-hide.
-     *
-     * @var bool
-     */
-    public $closeBtn = false;
+    public $type = 'info';
 
     /**
      * The message title.
@@ -37,7 +37,17 @@ class Toast implements \ArrayAccess
      *
      * @var null
      */
-    public $expires = null;
+    public $duration;
+
+    /**
+     * @var int
+     */
+    public $speed;
+
+    /**
+     * @var
+     */
+    public $customDuration;
 
     /**
      * Create a new message instance.
@@ -46,6 +56,10 @@ class Toast implements \ArrayAccess
      */
     public function __construct($attributes = [])
     {
+        $attributes['customDuration'] = isset($attributes['duration']) ? true : false;
+        $attributes['duration'] = isset($attributes['duration']) ? $attributes['duration'] : config('toaster.toast_lifetime');
+        $attributes['speed'] = isset($attributes['speed']) ? $attributes['speed'] : config('toaster.animation_speed');
+
         $this->update($attributes);
     }
 

@@ -3,17 +3,6 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | JavaScript Namespace
-    |--------------------------------------------------------------------------
-    |
-    | By default, we'll add variables to the toaster namespace. However, this
-    | can be changed to something of your preference. Avoid using 'window'.
-    |
-    */
-    'js_namespace' => 'toaster',
-
-    /*
-    |--------------------------------------------------------------------------
     | Maximum Toast Display Amount
     |--------------------------------------------------------------------------
     |
@@ -21,6 +10,28 @@ return [
     |
     */
     'max_toasts' => 10,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Toast Stagger
+    |--------------------------------------------------------------------------
+    |
+    | Enable/Disable stagger function, this uses the Toast Lifetime and
+    | Toast Interval defined below.
+    |
+    */
+    'toast_stagger' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Toast Stagger All
+    |--------------------------------------------------------------------------
+    |
+    | If true, stagger all toasts starting with the first group added.
+    | If false, reset the lifetime for each group.
+    |
+    */
+    'toast_stagger_all' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -53,4 +64,54 @@ return [
     |
     */
     'toast_position' => 'top right',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Toast Width
+    |--------------------------------------------------------------------------
+    |
+    | Classes specified here will be added to the toast component.
+    |
+    */
+    'toast_width' => '300px',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Toast Classes
+    |--------------------------------------------------------------------------
+    |
+    | Classes specified here will be added to the toast component.
+    |
+    */
+    'toast_classes' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reverse Order
+    |--------------------------------------------------------------------------
+    |
+    | Show toasts in reverse order.
+    |
+    */
+    'reverse_order' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Animation Type
+    |--------------------------------------------------------------------------
+    |
+    | The animation type used, i.e. 'css' or 'velocity'.
+    |
+    */
+    'animation_type' => 'css',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Animation Speed
+    |--------------------------------------------------------------------------
+    |
+    | The animation type used, i.e. 'css' or 'velocity'.
+    |
+    */
+    'animation_speed' => 300,
 ];

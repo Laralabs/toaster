@@ -34,7 +34,7 @@ class ToasterViewBinder implements ViewBinder
         $this->router = $router;
         $this->store = $store;
 
-        $this->namespace = config('toaster.js_namespace');
+        $this->namespace = 'toaster';
     }
 
     /**
@@ -50,12 +50,35 @@ class ToasterViewBinder implements ViewBinder
             $js = 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.'.key($data).' = ';
             $js = $js.json_encode($data[key($data)]);
 
-            $this->store->forget('toaster');
-
             return $js;
         }
 
         return 'window.'.$this->namespace.' = window.'.$this->namespace.' || {};'.$this->namespace.'.data = {};';
+    }
+
+    /**
+     * Generate component data.
+     *
+     * @return array
+     */
+    protected function generateComponents()
+    {
+        $components = [];
+
+        if ($this->store->has('toaster')) {
+            $data = $this->store->get('toaster');
+
+            foreach ($data['data'] as $group => $properties) {
+                unset($properties['messages']);
+                $components[$group] = $properties;
+            }
+
+            $this->store->forget('toaster');
+
+            return $components;
+        }
+
+        return $components;
     }
 
     /**
@@ -66,5 +89,29 @@ class ToasterViewBinder implements ViewBinder
     public function bind()
     {
         return '<script type="text/javascript">'.$this->generateJs().'</script>';
+    }
+
+    /**
+     * Generate vue-notification component markup.
+     *
+     * @return string
+     */
+    public function component()
+    {
+        $components = '';
+
+        foreach ($this->generateComponents() as $group => $props) {
+            $components = $components.' '.
+                '<toaster-group '.
+                (isset($props['name']) ? 'group="'.$props['name'].'" ' : '').
+                (isset($props['width']) ? 'width="'.$props['width'].'" ' : '').
+                (isset($props['position']) ? 'position="'.$props['position'].'" ' : '').
+                (isset($props['animation_type']) ? 'animation-type="'.$props['animation_type'].'" ' : '').
+                (isset($props['max']) ? ':max="'.$props['max'].'" ' : '').
+                (isset($props['reverse']) ? 'reverse="'.$props['reverse'].'" ' : '').
+                '>'.'</toaster-group>'.PHP_EOL;
+        }
+
+        return $components.'<toaster-logic></toaster-logic>';
     }
 }

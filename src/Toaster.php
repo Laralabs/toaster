@@ -16,12 +16,17 @@ class Toaster
     /**
      * @var string
      */
+    protected $currentGroup;
+
+    /**
+     * @var string
+     */
     public $json;
 
     /**
      * @var \Illuminate\Support\Collection
      */
-    public $messages;
+    public $groups;
 
     /**
      * @var int
@@ -46,11 +51,12 @@ class Toaster
     public function __construct(SessionStore $session)
     {
         $this->session = $session;
-        $this->messages = collect();
+        $this->groups = collect();
         $this->lifetime = config('toaster.toast_lifetime');
         $this->interval = config('toaster.toast_interval');
         $this->limit = config('toaster.max_toasts');
         $this->position = config('toaster.toast_position');
+        $this->currentGroup = 'default';
     }
 
     /**
@@ -60,7 +66,9 @@ class Toaster
      */
     public function info()
     {
-        return $this->updateLastMessage(['theme' => 'info']);
+        $this->groups->last()->updateLastMessage(['type' => 'info']);
+
+        return $this;
     }
 
     /**
@@ -70,7 +78,9 @@ class Toaster
      */
     public function success()
     {
-        return $this->updateLastMessage(['theme' => 'success']);
+        $this->groups->last()->updateLastMessage(['type' => 'success']);
+
+        return $this;
     }
 
     /**
@@ -80,7 +90,9 @@ class Toaster
      */
     public function error()
     {
-        return $this->updateLastMessage(['theme' => 'error']);
+        $this->groups->last()->updateLastMessage(['type' => 'error']);
+
+        return $this;
     }
 
     /**
@@ -90,67 +102,196 @@ class Toaster
      */
     public function warning()
     {
-        return $this->updateLastMessage(['theme' => 'warning']);
-    }
+        $this->groups->last()->updateLastMessage(['type' => 'warn']);
 
-    /**
-     * Set message close button flag to true.
-     *
-     * @return $this
-     */
-    public function important()
-    {
-        return $this->updateLastMessage(['closeBtn' => true]);
+        return $this;
     }
 
     /**
      * Set message title.
      *
-     * @param $value
+     * @param $value string
      *
      * @return Toaster
      */
-    public function title($value)
+    public function title(string $value)
     {
-        return $this->updateLastMessage(['title' => $value]);
+        $this->groups->last()->updateLastMessage(['title' => $value]);
+
+        return $this;
     }
 
     /**
-     * Set message expiry time.
+     * Set message as important.
      *
-     * @param $value
-     *
-     * @return Toaster
+     * @return $this
      */
-    public function expires($value)
+    public function important()
     {
-        if (is_int($value)) {
-            return $this->updateLastMessage(['expires' => $value]);
-        }
+        $this->groups->last()->updateLastMessage(['duration' => -1, 'customDuration' => true]);
 
-        abort(500, 'Argument passed to expires() must be a valid integer (milliseconds)');
+        return $this;
+    }
+
+    /**
+     * Set message duration.
+     *
+     * @param $value int
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function duration(int $value)
+    {
+        $this->groups->last()->updateLastMessage(['duration' => $value, 'customDuration' => true]);
+
+        return $this;
+    }
+
+    /**
+     * Set message animation speed.
+     *
+     * @param $value int
+     *
+     * @return $this
+     */
+    public function speed(int $value)
+    {
+        $this->groups->last()->updateLastMessage(['speed' => $value]);
+
+        return $this;
     }
 
     /**
      * Add a message to the toaster.
      *
-     * @param string|null $message
-     * @param bool|false  $closeBtn
-     * @param string      $theme
-     * @param string      $title
-     * @param string|null $expires
+     * @param $message string
+     * @param null $title
+     * @param null $properties
+     *
+     * @throws \Exception
+     *
+     * @return Toaster
+     */
+    public function add(string $message, $title = null, $properties = null)
+    {
+        if (is_array($properties)) {
+            $properties['message'] = $message;
+            $properties['title'] = is_null($title) ? isset($properties['title']) ? $properties['title'] : $title : $title;
+            $properties['group'] = isset($properties['group']) ? $properties['group'] : $this->currentGroup;
+            $group = $properties['group'];
+            $message = new Toast($properties);
+        } else {
+            $group = $this->currentGroup;
+            $message = new Toast(compact('message', 'title', 'group'));
+        }
+
+        if ($this->groups->count() < 1) {
+            $this->group($this->currentGroup);
+        }
+
+        try {
+            $this->groups->where('name', '=', $group)->first()->add($message);
+
+            return $this->flash();
+        } catch (\Throwable $e) {
+            throw new \Exception('No group found with the specified name');
+        }
+    }
+
+    /**
+     * Create a new group or update existing group.
+     *
+     * @param $name
+     * @param $properties null|array
      *
      * @return $this
      */
-    public function add($message, $theme = 'info', $closeBtn = false, $title = '', $expires = null)
+    public function group($name, $properties = null)
     {
-        if (!$message instanceof Toast) {
-            $message = new Toast(compact('message', 'theme', 'closeBtn', 'title', 'expires'));
+        if ($group = $this->groups->where('name', '=', $name)->first()) {
+            if (is_array($properties)) {
+                $group->updateProperties($properties);
+            }
+        } else {
+            $group = new ToasterGroup($name, $properties);
+            $this->groups->push($group);
         }
 
-        $this->messages->push($message);
+        $this->currentGroup = $name;
 
-        return $this->flash();
+        return $this;
+    }
+
+    /**
+     * Set group width.
+     *
+     * @param string $width
+     *
+     * @return mixed
+     */
+    public function width(string $width)
+    {
+        $this->groups->last()->updateProperty('width', $width);
+
+        return $this;
+    }
+
+    /**
+     * Set group classes.
+     *
+     * @param array $classes
+     *
+     * @return mixed
+     */
+    public function classes(array $classes)
+    {
+        $this->groups->last()->updateProperty('classes', $classes);
+
+        return $this;
+    }
+
+    /**
+     * Set group position.
+     *
+     * @param string $position
+     *
+     * @return mixed
+     */
+    public function position(string $position)
+    {
+        $this->groups->last()->updateProperty('position', $position);
+
+        return $this;
+    }
+
+    /**
+     * Set group max.
+     *
+     * @param int $max
+     *
+     * @return mixed
+     */
+    public function max(int $max)
+    {
+        $this->groups->last()->updateProperty('max', $max);
+
+        return $this;
+    }
+
+    /**
+     * Set group reverse order.
+     *
+     * @param bool $reverse
+     *
+     * @return mixed
+     */
+    public function reverse(bool $reverse)
+    {
+        $this->groups->last()->updateProperty('reverse', $reverse);
+
+        return $this;
     }
 
     /**
@@ -160,76 +301,75 @@ class Toaster
      *
      * @return Toaster
      */
-    public function update($attributes)
+    public function update(array $attributes)
     {
-        return $this->updateLastMessage($attributes);
+        $this->groups->last()->updateLastMessage($attributes);
+
+        return $this;
     }
 
     /**
-     * Modify the most recently added message.
-     *
-     * @param array $overrides
-     *
-     * @return $this
-     */
-    protected function updateLastMessage($overrides = [])
-    {
-        if ($this->messages->count() > 0) {
-            $this->messages->last()->update($overrides);
-
-            return $this->flash();
-        }
-
-        abort(500, 'Use the add() function to add a message before attempting to modify it');
-    }
-
-    /**
-     * Clear all registered messages.
+     * Clear all registered groups.
      *
      * @return $this
      */
     public function clear()
     {
-        $this->messages = collect();
+        $this->groups = collect();
+        $this->flash();
 
         return $this;
     }
 
     /**
-     * Set toast expiry time values.
+     * Stagger messages with lifetime and interval.
      *
-     * @return $this
+     *
+     * @param bool $all
      */
-    protected function setExpires()
+    protected function stagger($all = true)
     {
-        $expires = $this->lifetime;
+        $current = $this->lifetime - $this->interval;
 
-        foreach ($this->messages as $toast) {
-            if ($toast->expires === null) {
-                $toast->expires = $expires;
+        foreach ($this->groups->all() as $group) {
+            $current = $all ? $current : $this->lifetime - $this->interval;
+            foreach ($group->messages->all() as $message) {
+                $current = $current + $this->interval;
+                $message->duration = $message->customDuration ? $message->duration : $current;
+                $current = $message->customDuration ? $current - $this->interval : $current;
             }
-            $expires = $expires + $this->interval;
         }
-
-        return $this;
     }
 
     /**
      * Flash all messages to the session.
+     *
+     * @return $this
      */
-    protected function flash()
+    public function flash()
     {
-        $this->setExpires();
+        if (config('toaster.toast_stagger')) {
+            config('toaster.toast_stagger_all') ? $this->stagger() : $this->stagger(false);
+        }
 
-        $this->session->flash('toaster', [
-            'data' => [
-                'lifetime'  => $this->lifetime,
-                'maxToasts' => $this->limit,
-                'messages'  => $this->messages->toArray(),
-                'position'  => $this->position,
-            ],
-        ]);
+        $this->session->flash('toaster', $this->parse());
 
         return $this;
+    }
+
+    /**
+     * Parse groups and messages into array.
+     *
+     * @return array
+     */
+    protected function parse()
+    {
+        $payload = ['data' => []];
+
+        foreach ($this->groups->all() as $group) {
+            $payload['data'][$group->name] = array_merge($group->properties, ['messages' => $group->messages->toArray()]);
+        }
+
+        return $payload;
     }
 }
