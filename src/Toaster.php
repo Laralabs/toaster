@@ -62,7 +62,7 @@ class Toaster
     /**
      * Set message info theme.
      *
-     * @return $this
+     * @return Toaster
      */
     public function info()
     {
@@ -74,7 +74,7 @@ class Toaster
     /**
      * Set message success theme.
      *
-     * @return $this
+     * @return Toaster
      */
     public function success()
     {
@@ -86,7 +86,7 @@ class Toaster
     /**
      * Set message error theme.
      *
-     * @return $this
+     * @return Toaster
      */
     public function error()
     {
@@ -98,7 +98,7 @@ class Toaster
     /**
      * Set message warning theme.
      *
-     * @return $this
+     * @return Toaster
      */
     public function warning()
     {
@@ -124,7 +124,7 @@ class Toaster
     /**
      * Set message as important.
      *
-     * @return $this
+     * @return Toaster
      */
     public function important()
     {
@@ -140,7 +140,7 @@ class Toaster
      *
      * @throws \InvalidArgumentException
      *
-     * @return $this
+     * @return Toaster
      */
     public function duration(int $value)
     {
@@ -154,7 +154,7 @@ class Toaster
      *
      * @param $value int
      *
-     * @return $this
+     * @return Toaster
      */
     public function speed(int $value)
     {
@@ -206,7 +206,7 @@ class Toaster
      * @param $name
      * @param $properties null|array
      *
-     * @return $this
+     * @return Toaster
      */
     public function group($name, $properties = null)
     {
@@ -229,7 +229,7 @@ class Toaster
      *
      * @param string $width
      *
-     * @return mixed
+     * @return Toaster
      */
     public function width(string $width)
     {
@@ -243,7 +243,7 @@ class Toaster
      *
      * @param array $classes
      *
-     * @return mixed
+     * @return Toaster
      */
     public function classes(array $classes)
     {
@@ -257,7 +257,7 @@ class Toaster
      *
      * @param string $position
      *
-     * @return mixed
+     * @return Toaster
      */
     public function position(string $position)
     {
@@ -271,7 +271,7 @@ class Toaster
      *
      * @param int $max
      *
-     * @return mixed
+     * @return Toaster
      */
     public function max(int $max)
     {
@@ -285,7 +285,7 @@ class Toaster
      *
      * @param bool $reverse
      *
-     * @return mixed
+     * @return Toaster
      */
     public function reverse(bool $reverse)
     {
@@ -311,7 +311,7 @@ class Toaster
     /**
      * Clear all registered groups.
      *
-     * @return $this
+     * @return Toaster
      */
     public function clear()
     {
@@ -344,7 +344,7 @@ class Toaster
     /**
      * Flash all messages to the session.
      *
-     * @return $this
+     * @return Toaster
      */
     public function flash()
     {
