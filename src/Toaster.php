@@ -3,8 +3,6 @@
 namespace Laralabs\Toaster;
 
 use Laralabs\Toaster\Interfaces\SessionStore;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class Toaster
 {
@@ -139,8 +137,10 @@ class Toaster
      * Set message duration.
      *
      * @param $value int
-     * @return $this
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return $this
      */
     public function duration(int $value)
     {
@@ -153,6 +153,7 @@ class Toaster
      * Set message animation speed.
      *
      * @param $value int
+     *
      * @return $this
      */
     public function speed(int $value)
@@ -168,8 +169,10 @@ class Toaster
      * @param $message string
      * @param null $title
      * @param null $properties
-     * @return Toaster
+     *
      * @throws \Exception
+     *
+     * @return Toaster
      */
     public function add(string $message, $title = null, $properties = null)
     {
@@ -190,6 +193,7 @@ class Toaster
 
         try {
             $this->groups->where('name', '=', $group)->first()->add($message);
+
             return $this->flash();
         } catch (\Throwable $e) {
             throw new \Exception('No group found with the specified name');
@@ -201,6 +205,7 @@ class Toaster
      *
      * @param $name
      * @param $properties null|array
+     *
      * @return $this
      */
     public function group($name, $properties = null)
@@ -223,6 +228,7 @@ class Toaster
      * Set group width.
      *
      * @param string $width
+     *
      * @return mixed
      */
     public function width(string $width)
@@ -236,6 +242,7 @@ class Toaster
      * Set group classes.
      *
      * @param array $classes
+     *
      * @return mixed
      */
     public function classes(array $classes)
@@ -249,6 +256,7 @@ class Toaster
      * Set group position.
      *
      * @param string $position
+     *
      * @return mixed
      */
     public function position(string $position)
@@ -262,6 +270,7 @@ class Toaster
      * Set group max.
      *
      * @param int $max
+     *
      * @return mixed
      */
     public function max(int $max)
@@ -275,6 +284,7 @@ class Toaster
      * Set group reverse order.
      *
      * @param bool $reverse
+     *
      * @return mixed
      */
     public function reverse(bool $reverse)
@@ -312,7 +322,7 @@ class Toaster
     }
 
     /**
-     * Stagger messages with lifetime and interval
+     * Stagger messages with lifetime and interval.
      *
      *
      * @param bool $all

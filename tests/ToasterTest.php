@@ -40,24 +40,24 @@ class ToasterTest extends TestCase
         $this->assertSessionHas('toaster', [
             'data' => [
                 'default' => [
-                    'name' => 'default',
-                    'width' => $this->width,
-                    'classes' => [],
-                    'animation_type' => $this->animationType,
-                    'animation_name' => null,
-                    'position' => $this->position,
-                    'max' => $this->limit,
-                    'reverse' => $this->reverse,
-                    'messages' => $this->toaster->groups->first()->messages->toArray(),
-                    'velocity_config' => 'velocity'
-                ]
+                    'name'            => 'default',
+                    'width'           => $this->width,
+                    'classes'         => [],
+                    'animation_type'  => $this->animationType,
+                    'animation_name'  => null,
+                    'position'        => $this->position,
+                    'max'             => $this->limit,
+                    'reverse'         => $this->reverse,
+                    'messages'        => $this->toaster->groups->first()->messages->toArray(),
+                    'velocity_config' => 'velocity',
+                ],
             ],
         ]);
 
         $this->toaster->clear();
 
         $this->assertSessionHas('toaster', [
-            'data' => []
+            'data' => [],
         ]);
     }
 
@@ -78,15 +78,15 @@ class ToasterTest extends TestCase
     public function it_can_create_a_toaster_group_and_set_properties()
     {
         $properties = [
-            'name' => 'toastie',
-            'width' => '500px',
-            'classes' => ['salt', 'pepper'],
-            'animation_type' => 'css',
-            'animation_name' => 'animation-name',
+            'name'            => 'toastie',
+            'width'           => '500px',
+            'classes'         => ['salt', 'pepper'],
+            'animation_type'  => 'css',
+            'animation_name'  => 'animation-name',
             'velocity_config' => 'velocity',
-            'position' => 'bottom left',
-            'max' => 15,
-            'reverse' => true
+            'position'        => 'bottom left',
+            'max'             => 15,
+            'reverse'         => true,
         ];
 
         $this->toaster->group($properties['name'], $properties);
@@ -104,15 +104,15 @@ class ToasterTest extends TestCase
     public function it_can_update_existing_group_properties()
     {
         $properties = [
-            'name' => 'toastie',
-            'width' => '500px',
-            'classes' => ['salt', 'pepper'],
-            'animation_type' => 'css',
-            'animation_name' => 'animation-name',
+            'name'            => 'toastie',
+            'width'           => '500px',
+            'classes'         => ['salt', 'pepper'],
+            'animation_type'  => 'css',
+            'animation_name'  => 'animation-name',
             'velocity_config' => 'velocity',
-            'position' => 'bottom left',
-            'max' => 15,
-            'reverse' => true
+            'position'        => 'bottom left',
+            'max'             => 15,
+            'reverse'         => true,
         ];
 
         $this->toaster->group('toastie')->group($properties['name'], $properties);
@@ -201,12 +201,12 @@ class ToasterTest extends TestCase
     public function it_can_mass_update_last_toast_properties()
     {
         $properties = [
-            'group' => 'toastie',
-            'message' => 'cheese',
-            'type' => 'warn',
-            'title' => 'Toastie Ingredients',
+            'group'    => 'toastie',
+            'message'  => 'cheese',
+            'type'     => 'warn',
+            'title'    => 'Toastie Ingredients',
             'duration' => $this->lifetime,
-            'speed' => $this->animationSpeed
+            'speed'    => $this->animationSpeed,
         ];
 
         $this->toaster->group($properties['group'])
@@ -230,12 +230,12 @@ class ToasterTest extends TestCase
     public function it_can_add_toast_with_properties()
     {
         $properties = [
-            'group' => 'toastie',
-            'message' => 'cheese',
-            'type' => 'warn',
-            'title' => 'Toastie Ingredients',
+            'group'    => 'toastie',
+            'message'  => 'cheese',
+            'type'     => 'warn',
+            'title'    => 'Toastie Ingredients',
             'duration' => $this->lifetime,
-            'speed' => $this->animationSpeed
+            'speed'    => $this->animationSpeed,
         ];
 
         $this->toaster->group($properties['group'])
@@ -258,12 +258,12 @@ class ToasterTest extends TestCase
     public function it_can_add_toast_to_specified_group()
     {
         $properties = [
-            'group' => 'toastie',
-            'message' => 'cheese',
-            'type' => 'warn',
-            'title' => 'Toastie Ingredients',
+            'group'    => 'toastie',
+            'message'  => 'cheese',
+            'type'     => 'warn',
+            'title'    => 'Toastie Ingredients',
             'duration' => $this->lifetime + $this->interval,
-            'speed' => $this->animationSpeed
+            'speed'    => $this->animationSpeed,
         ];
 
         $this->toaster->group('toastie')->add('ham')
@@ -290,12 +290,12 @@ class ToasterTest extends TestCase
         $this->expectExceptionMessage('No group found with the specified name');
 
         $properties = [
-            'group' => 'toastie-invalid-group',
-            'message' => 'cheese',
-            'type' => 'warn',
-            'title' => 'Toastie Ingredients',
+            'group'    => 'toastie-invalid-group',
+            'message'  => 'cheese',
+            'type'     => 'warn',
+            'title'    => 'Toastie Ingredients',
             'duration' => $this->lifetime + $this->interval,
-            'speed' => $this->animationSpeed
+            'speed'    => $this->animationSpeed,
         ];
 
         $this->toaster->group('toastie')->add('ham')
@@ -504,7 +504,7 @@ class ToasterTest extends TestCase
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
-        $validComponent = ' <notifications group="toastie" width="300px" position="top right" animation-type="css" :max="10" reverse="" ></notifications>' . PHP_EOL;
+        $validComponent = ' <notifications group="toastie" width="300px" position="top right" animation-type="css" :max="10" reverse="" ></notifications>'.PHP_EOL;
 
         $this->assertEquals($validComponent, $this->binder->component());
     }

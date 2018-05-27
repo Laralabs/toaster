@@ -23,15 +23,15 @@ class ToasterGroup
     {
         $this->name = $name;
         $this->properties = [
-            'name' => $name,
-            'width' => config('toaster.toast_width'),
-            'classes' => config('toaster.toast_classes'),
-            'animation_type' => config('toaster.animation_type'),
-            'animation_name' => null,
+            'name'            => $name,
+            'width'           => config('toaster.toast_width'),
+            'classes'         => config('toaster.toast_classes'),
+            'animation_type'  => config('toaster.animation_type'),
+            'animation_name'  => null,
             'velocity_config' => 'velocity',
-            'position' => config('toaster.toast_position'),
-            'max' => config('toaster.max_toasts'),
-            'reverse' => config('toaster.reverse_order')
+            'position'        => config('toaster.toast_position'),
+            'max'             => config('toaster.max_toasts'),
+            'reverse'         => config('toaster.reverse_order'),
         ];
         if (is_array($properties)) {
             $this->properties = array_merge($this->properties, $properties);
@@ -41,6 +41,7 @@ class ToasterGroup
 
     /**
      * @param $toast
+     *
      * @return $this
      */
     public function add($toast)
@@ -80,8 +81,9 @@ class ToasterGroup
      *
      * @param array $overrides
      *
-     * @return $this
      * @throws \Exception
+     *
+     * @return $this
      */
     public function updateLastMessage($overrides = [])
     {
