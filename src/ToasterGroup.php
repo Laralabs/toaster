@@ -19,7 +19,7 @@ class ToasterGroup
      */
     public $messages;
 
-    public function __construct($name = 'default')
+    public function __construct($name = 'default', $properties = null)
     {
         $this->name = $name;
         $this->properties = [
@@ -33,6 +33,9 @@ class ToasterGroup
             'max' => config('toaster.max_toasts'),
             'reverse' => config('toaster.reverse_order')
         ];
+        if (is_array($properties)) {
+            $this->properties = array_merge($properties, $this->properties);
+        }
         $this->messages = collect();
     }
 

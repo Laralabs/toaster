@@ -197,17 +197,24 @@ class Toaster
     }
 
     /**
-     * Create a new group.
+     * Create a new group or update existing group.
      *
      * @param $name
+     * @param $properties null|array
      * @return $this
      */
-    public function group($name)
+    public function group($name, $properties = null)
     {
-        $group = new ToasterGroup($name);
-        $this->currentGroup = $name;
+        if ($group = $this->groups->where('name', '=', $name)->first()) {
+            if (is_array($properties)) {
+                $group->updateProperties($properties);
+            }
+        } else {
+            $group = new ToasterGroup($name, $properties);
+            $this->groups->push($group);
+        }
 
-        $this->groups->push($group);
+        $this->currentGroup = $name;
 
         return $this;
     }
@@ -234,45 +241,6 @@ class Toaster
     public function classes(array $classes)
     {
         $this->groups->last()->updateProperty('classes', $classes);
-
-        return $this;
-    }
-
-    /**
-     * Set group animation type.
-     *
-     * @param string $animationType
-     * @return mixed
-     */
-    public function animationType(string $animationType)
-    {
-        $this->groups->last()->updateProperty('animation_type', $animationType);
-
-        return $this;
-    }
-
-    /**
-     * Set group animation name.
-     *
-     * @param string $animationName
-     * @return mixed
-     */
-    public function animationName(string $animationName)
-    {
-        $this->groups->last()->updateProperty('animation_name', $animationName);
-
-        return $this;
-    }
-
-    /**
-     * Set group velocity config.
-     *
-     * @param string $velocityConfig
-     * @return mixed
-     */
-    public function velocityConfig(string $velocityConfig)
-    {
-        $this->groups->last()->updateProperty('velocity_config', $velocityConfig);
 
         return $this;
     }
@@ -312,19 +280,6 @@ class Toaster
     public function reverse(bool $reverse)
     {
         $this->groups->last()->updateProperty('reverse', $reverse);
-
-        return $this;
-    }
-
-    /**
-     * Set group properties.
-     *
-     * @param array $properties
-     * @return mixed
-     */
-    public function properties(array $properties)
-    {
-        $this->groups->last()->updateProperties($properties);
 
         return $this;
     }

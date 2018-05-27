@@ -75,6 +75,59 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_toaster_group_and_set_properties()
+    {
+        $properties = [
+            'name' => 'toastie',
+            'width' => '500px',
+            'classes' => ['salt', 'pepper'],
+            'animation_type' => 'css',
+            'animation_name' => 'animation-name',
+            'velocity_config' => 'velocity',
+            'position' => 'bottom left',
+            'max' => 15,
+            'reverse' => true
+        ];
+
+        $this->toaster->group($properties['name'], $properties);
+
+        $group = $this->toaster->groups->last();
+
+        $this->assertInstanceOf(ToasterGroup::class, $group);
+        $this->assertEquals('toastie', $group->name);
+        $this->assertEquals($properties, $group->properties);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
+    public function it_can_update_existing_group_properties()
+    {
+        $properties = [
+            'name' => 'toastie',
+            'width' => '500px',
+            'classes' => ['salt', 'pepper'],
+            'animation_type' => 'css',
+            'animation_name' => 'animation-name',
+            'velocity_config' => 'velocity',
+            'position' => 'bottom left',
+            'max' => 15,
+            'reverse' => true
+        ];
+
+        $this->toaster->group('toastie')->group($properties['name'], $properties);
+
+        $group = $this->toaster->groups->last();
+
+        $this->assertInstanceOf(ToasterGroup::class, $group);
+        $this->assertCount(1, $this->toaster->groups);
+        $this->assertEquals('toastie', $group->name);
+        $this->assertEquals($properties, $group->properties);
+
+        $this->toaster->clear();
+    }
+
+    /** @test */
     public function it_can_set_group_width()
     {
         $this->toaster->group('toastie')->width('100%');
@@ -98,35 +151,6 @@ class ToasterTest extends TestCase
         $this->assertInstanceOf(ToasterGroup::class, $group);
         $this->assertEquals('toastie', $group->name);
         $this->assertEquals(['salt', 'pepper'], $group->properties['classes']);
-
-        $this->toaster->clear();
-    }
-
-    /** @test */
-    public function it_can_set_group_animation_type_and_velocity_config()
-    {
-        $this->toaster->group('toastie')->animationType('velocity')->velocityConfig('velocity');
-
-        $group = $this->toaster->groups->first();
-
-        $this->assertInstanceOf(ToasterGroup::class, $group);
-        $this->assertEquals('toastie', $group->name);
-        $this->assertEquals('velocity', $group->properties['animation_type']);
-        $this->assertEquals('velocity', $group->properties['velocity_config']);
-
-        $this->toaster->clear();
-    }
-
-    /** @test */
-    public function it_can_set_group_animation_name()
-    {
-        $this->toaster->group('toastie')->animationName('animation-name');
-
-        $group = $this->toaster->groups->first();
-
-        $this->assertInstanceOf(ToasterGroup::class, $group);
-        $this->assertEquals('toastie', $group->name);
-        $this->assertEquals('animation-name', $group->properties['animation_name']);
 
         $this->toaster->clear();
     }
@@ -169,33 +193,6 @@ class ToasterTest extends TestCase
         $this->assertInstanceOf(ToasterGroup::class, $group);
         $this->assertEquals('toastie', $group->name);
         $this->assertEquals(true, $group->properties['reverse']);
-
-        $this->toaster->clear();
-    }
-
-    /** @test */
-    public function it_can_mass_update_last_group_properties()
-    {
-        $properties = [
-            'name' => 'toastie',
-            'width' => '500px',
-            'classes' => ['salt', 'pepper'],
-            'animation_type' => 'css',
-            'animation_name' => 'animation-name',
-            'velocity_config' => 'velocity',
-            'position' => 'bottom left',
-            'max' => 15,
-            'reverse' => true
-        ];
-
-        $this->toaster->group($properties['name'])
-            ->properties($properties);
-
-        $group = $this->toaster->groups->last();
-
-        $this->assertInstanceOf(ToasterGroup::class, $group);
-        $this->assertEquals('toastie', $group->name);
-        $this->assertEquals($properties, $group->properties);
 
         $this->toaster->clear();
     }
