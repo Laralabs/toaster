@@ -34,7 +34,7 @@ class ToasterViewBinder implements ViewBinder
         $this->router = $router;
         $this->store = $store;
 
-        $this->namespace = config('toaster.js_namespace');
+        $this->namespace = 'toaster';
     }
 
     /**

@@ -3,17 +3,6 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | JavaScript Namespace
-    |--------------------------------------------------------------------------
-    |
-    | By default, we'll add variables to the toaster namespace. However, this
-    | can be changed to something of your preference. Avoid using 'window'.
-    |
-    */
-    'js_namespace' => 'toaster',
-
-    /*
-    |--------------------------------------------------------------------------
     | Maximum Toast Display Amount
     |--------------------------------------------------------------------------
     |

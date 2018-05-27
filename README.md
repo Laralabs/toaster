@@ -17,10 +17,14 @@ Full documentation can be found at the link below:
 [Toaster Documentation](http://docs.laralabs.uk/toaster)
 
 ## Preview
-> Example of Toaster being used with [vue-toast](https://github.com/AStaroverov/vue-toast), this setup is included within the documentation.
+> Example of Toaster being used with [laralabs-vue-toaster](https://github.com/Laralabs/vue-toaster), this setup is included within the documentation.
 <p align="center">
-    <img src="http://docs.laralabs.uk/toaster/images/toasterexample.gif" height="299px" width="550px" />
+    <img src="https://docs.laralabs.uk/toaster/images/toasterexample.gif" height="177px" width="320px" />
 </p>
+
+## Demo
+
+A live demo is available [here](https://toaster.laralabs.uk)
 
 ## Support
 Please raise an issue on GitHub if there is a problem.
