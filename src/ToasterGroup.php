@@ -34,7 +34,7 @@ class ToasterGroup
             'reverse' => config('toaster.reverse_order')
         ];
         if (is_array($properties)) {
-            $this->properties = array_merge($properties, $this->properties);
+            $this->properties = array_merge($this->properties, $properties);
         }
         $this->messages = collect();
     }
