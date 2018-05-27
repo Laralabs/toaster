@@ -84,7 +84,7 @@ return [
     | Classes specified here will be added to the toast component.
     |
     */
-    'toast_width' => "300px",
+    'toast_width' => '300px',
 
     /*
     |--------------------------------------------------------------------------
