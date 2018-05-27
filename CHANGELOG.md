@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 - Overhaul to work with a more advanced frontend component [euvl/vue-notification](https://github.com/euvl/vue-notification)
 ### Removed
 - expires() function.
+- 'js_namespace' config option removed, namespace will always be 'toaster'
 ## [2.0.1] - 29-01-2018
 ### Changed
 - composer.json updated to fix packagist
