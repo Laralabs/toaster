@@ -54,6 +54,7 @@ class ToasterGroup
      *
      * @param $key
      * @param $value
+     *
      * @return $this
      */
     public function updateProperty($key, $value)
