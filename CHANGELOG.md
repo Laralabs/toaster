@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 10-03-2019
+### Changed
+- Laravel 5.8 tests
 ## [3.0.0] - 27-05-2018
 #### BREAKING CHANGES, PLEASE SEE [DOCUMENTATION](https://docs.laralabs.uk/toaster)
 ### Added
