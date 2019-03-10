@@ -91,6 +91,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
+
+        \Mockery::close();
     }
 
     protected function getPackageProviders($app)

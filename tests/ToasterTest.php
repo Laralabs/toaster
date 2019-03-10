@@ -536,9 +536,4 @@ class ToasterTest extends TestCase
             $this->assertEquals($value, Session::get($name), "Session '$name' are not equal to".print_r($value).'');
         }
     }
-
-    public function tearDown()
-    {
-        \Mockery::close();
-    }
 }
