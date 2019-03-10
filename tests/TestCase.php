@@ -88,6 +88,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->animationSpeed = config('toaster.animation_speed');
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
     protected function getPackageProviders($app)
     {
         return [
