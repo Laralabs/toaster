@@ -20,9 +20,8 @@ matrix:
 sudo: false
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source --no-suggest
   - if [ "$LARAVEL_VERSION" != "" ]; then composer require --dev "laravel/framework:${LARAVEL_VERSION}" --no-update; fi;
-  - composer update
+  - travis_retry composer install --no-interaction --prefer-source --no-suggest
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
