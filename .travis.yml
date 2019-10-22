@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 7.1
   - 7.2
   - 7.3
 
@@ -10,9 +9,9 @@ env:
     - CC_TEST_REPORTER_ID=$CODECLIMATE_REPO_TOKEN
   matrix:
     - LARAVEL_VERSION=5.5.*
-    - LARAVEL_VERSION=5.6.*
     - LARAVEL_VERSION=5.7.*
     - LARAVEL_VERSION=5.8.*
+    - LARAVEL_VERSION=6.0.*
 
 matrix:
   fast_finish: true
@@ -20,9 +19,8 @@ matrix:
 sudo: false
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source --no-suggest
   - if [ "$LARAVEL_VERSION" != "" ]; then composer require --dev "laravel/framework:${LARAVEL_VERSION}" --no-update; fi;
-  - composer update
+  - travis_retry composer install --no-interaction --prefer-source --no-suggest
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
