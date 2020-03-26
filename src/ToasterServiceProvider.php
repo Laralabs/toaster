@@ -28,7 +28,8 @@ class ToasterServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/toaster.php', 'toaster'
+            __DIR__.'/../config/toaster.php',
+            'toaster'
         );
     }
 

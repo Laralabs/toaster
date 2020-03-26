@@ -4,7 +4,6 @@ namespace Laralabs\Toaster\Tests;
 
 use Laralabs\Toaster\Toaster;
 use Laralabs\Toaster\ToasterServiceProvider;
-use Laralabs\Toaster\ToasterViewBinder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {

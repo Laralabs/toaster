@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.0.3] - 26-03-2020
+### Changed
+- Laravel 7.0 compatibility
+## [3.0.2] - 22-10-2019
+### Changed
+- Laravel 6.0 compatibility
 ## [3.0.1] - 10-03-2019
 ### Changed
 - Laravel 5.8 tests
