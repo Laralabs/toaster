@@ -12,6 +12,10 @@ The toaster package for Laravel provides a quick 'n' easy method for creating to
 
 You can then access them in your favourite JS component or use laralabs-vue-toaster, built for this package.
 
+```
+composer require laralabs/toaster
+```
+
 ## Documentation
 
 Full documentation can be found at the link below: 
