@@ -5,12 +5,12 @@ namespace Laralabs\Toaster\Tests;
 use Illuminate\Support\Facades\Config;
 use Laralabs\Toaster\Toaster;
 use Laralabs\Toaster\ToasterGroup;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class ToasterTest extends TestCase
 {
     /** @test */
-    public function toaster_function_returns_toaster_instance()
+    public function toaster_function_returns_toaster_instance(): void
     {
         $toaster = toaster();
 
@@ -18,7 +18,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_displays_default_toast_and_can_clear_all()
+    public function it_displays_default_toast_and_can_clear_all(): void
     {
         $this->toaster->add('cheese');
 
@@ -62,7 +62,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_toaster_group_and_set_name()
+    public function it_can_create_a_toaster_group_and_set_name(): void
     {
         $this->toaster->group('toastie');
 
@@ -75,7 +75,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_toaster_group_and_set_properties()
+    public function it_can_create_a_toaster_group_and_set_properties(): void
     {
         $properties = [
             'name'            => 'toastie',
@@ -101,7 +101,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_existing_group_properties()
+    public function it_can_update_existing_group_properties(): void
     {
         $properties = [
             'name'            => 'toastie',
@@ -128,7 +128,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_group_width()
+    public function it_can_set_group_width(): void
     {
         $this->toaster->group('toastie')->width('100%');
 
@@ -142,7 +142,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_group_classes()
+    public function it_can_set_group_classes(): void
     {
         $this->toaster->group('toastie')->classes(['salt', 'pepper']);
 
@@ -156,7 +156,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_group_position()
+    public function it_can_set_group_position(): void
     {
         $this->toaster->group('toastie')->position('top left');
 
@@ -170,7 +170,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_group_max_toasts()
+    public function it_can_set_group_max_toasts(): void
     {
         $this->toaster->group('toastie')->max(10);
 
@@ -184,7 +184,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_group_reverse_order()
+    public function it_can_set_group_reverse_order(): void
     {
         $this->toaster->group('toastie')->reverse(true);
 
@@ -198,7 +198,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_mass_update_last_toast_properties()
+    public function it_can_mass_update_last_toast_properties(): void
     {
         $properties = [
             'group'    => 'toastie',
@@ -227,7 +227,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_toast_with_properties()
+    public function it_can_add_toast_with_properties(): void
     {
         $properties = [
             'group'    => 'toastie',
@@ -255,7 +255,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_toast_to_specified_group()
+    public function it_can_add_toast_to_specified_group(): void
     {
         $properties = [
             'group'    => 'toastie',
@@ -285,7 +285,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_for_invalid_group()
+    public function it_throws_exception_for_invalid_group(): void
     {
         $this->expectExceptionMessage('No group found with the specified name');
 
@@ -307,7 +307,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_stagger_groups()
+    public function it_can_stagger_groups(): void
     {
         Config::set('toaster.toast_stagger_all', false);
 
@@ -329,7 +329,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_stagger_all_groups_and_retain_custom_duration()
+    public function it_can_stagger_all_groups_and_retain_custom_duration(): void
     {
         Config::set('toaster.toast_stagger_all', true);
 
@@ -352,7 +352,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_displays_multiple_toast()
+    public function it_displays_multiple_toast(): void
     {
         $this->toaster->group('toastie')
             ->add('ham')
@@ -364,7 +364,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_default_duration_and_speed()
+    public function it_sets_default_duration_and_speed(): void
     {
         $this->toaster->group('toastie')->add('cheese');
 
@@ -379,7 +379,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_custom_duration_and_speed()
+    public function it_sets_custom_duration_and_speed(): void
     {
         $this->toaster->group('toastie')->add('cheese')->duration(5000)->speed(800);
 
@@ -396,7 +396,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_info_toast()
+    public function it_sets_info_toast(): void
     {
         $this->toaster->group('toastie')->add('cheese')->info();
 
@@ -411,7 +411,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_success_toast()
+    public function it_sets_success_toast(): void
     {
         $this->toaster->group('toastie')->add('cheese')->success();
 
@@ -426,7 +426,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_warning_toast()
+    public function it_sets_warning_toast(): void
     {
         $this->toaster->group('toastie')->add('cheese')->warning();
 
@@ -441,7 +441,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_error_toast()
+    public function it_sets_error_toast(): void
     {
         $this->toaster->group('toastie')->add('cheese')->error();
 
@@ -456,7 +456,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_important_toast()
+    public function it_sets_important_toast(): void
     {
         $this->toaster->group('toastie')->add('cheese')->important();
 
@@ -472,7 +472,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_toast_title()
+    public function it_sets_toast_title(): void
     {
         $this->toaster->group('toastie')->add('cheese')->title('Toastie Ingredients');
 
@@ -488,7 +488,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_correctly_structured_json()
+    public function it_generates_correctly_structured_json(): void
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
@@ -500,7 +500,7 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_correct_component_html()
+    public function it_generates_correct_component_html(): void
     {
         $this->toaster->group('toastie')->add('ham')->success()->add('cheese');
 
@@ -510,26 +510,22 @@ class ToasterTest extends TestCase
     }
 
     /** @test */
-    public function it_has_mandatory_message_argument()
+    public function it_has_mandatory_message_argument(): void
     {
-        if (version_compare(PHP_VERSION, '7.1', '>=')) {
-            $this->expectException('ArgumentCountError');
-        } else {
-            $this->expectException('ErrorException');
-        }
+        $this->expectException('ArgumentCountError');
 
         $this->toaster->add();
     }
 
     /** @test */
-    public function it_aborts_editing_non_message()
+    public function it_aborts_editing_non_message(): void
     {
         $this->expectExceptionMessage('Use the add() function to add a message before attempting to modify it');
 
         $this->toaster->group('toastie')->success();
     }
 
-    protected function assertSessionHas($name, $value = null)
+    protected function assertSessionHas($name, $value = null): void
     {
         $this->assertTrue(Session::has($name), "Session doesn't contain '$name'");
         if ($value) {

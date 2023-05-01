@@ -1,14 +1,12 @@
 vendor/
 node_modules/
-
-# Laravel 4 specific
+.idea
 bootstrap/compiled.php
 app/storage/
-
-# Laravel 5 & Lumen specific
 bootstrap/cache/
 .env.*.php
 .env.php
 .env
-
 *.DS_Store
+.phpunit.result.cache
+composer.lock
