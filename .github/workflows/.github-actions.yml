@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+    tags:
+      - 5.*
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  phpunit:
+    strategy:
+      matrix:
+        version: ['8.1', '8.2']
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.version }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, exif, iconv
+          coverage: xdebug
+
+      - name: Install composer packages
+        run: |
+          php -v
+          composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+
+      - name: Execute tests
+        run: |
+          php -v
+          ./vendor/phpunit/phpunit/phpunit --version
+          ./vendor/phpunit/phpunit/phpunit --coverage-clover=coverage.xml
+          export CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}
+          bash <(curl -s https://codecov.io/bash) || echo 'Codecov failed to upload'
+
+      - name: Upload code coverage
+        run: |
+          export CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}
+          bash <(curl -s https://codecov.io/bash) || echo 'Codecov failed to upload'
+
+      - name: Upload log artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ~/storage/logs
+          retention-days: 3
