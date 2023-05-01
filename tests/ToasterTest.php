@@ -3,9 +3,9 @@
 namespace Laralabs\Toaster\Tests;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 use Laralabs\Toaster\Toaster;
 use Laralabs\Toaster\ToasterGroup;
-use Illuminate\Support\Facades\Session;
 
 class ToasterTest extends TestCase
 {
