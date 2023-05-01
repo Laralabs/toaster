@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 01-05-2023
+### Changed
+- Laravel 10 compatibility
+- Remove old travis config and replace with GH actions
 ## [4.0.1] - 14-02-2022
 ### Changed
 - Laravel 9 compatibility
