@@ -7,6 +7,7 @@
 <a href="https://styleci.io/repos/103109905"><img src="https://styleci.io/repos/103109905/shield?branch=master" alt="StyleCI"></a>
 <a href="https://codeclimate.com/github/Laralabs/toaster"><img src="https://codeclimate.com/github/Laralabs/toaster/badges/gpa.svg" /></a>
 <a href="https://codeclimate.com/github/Laralabs/toaster/test_coverage"><img src="https://api.codeclimate.com/v1/badges/24d1ca24be59a4952716/test_coverage" /></a>
+<a href="https://codecov.io/gh/Laralabs/toaster"><img src="https://codecov.io/gh/Laralabs/toaster/branch/master/graph/badge.svg?token=LZ3SIO46CN"/></a>
 </p>
 The toaster package for Laravel provides a quick 'n' easy method for creating toast messages and binding the data to your view as a JS variable. 
 
