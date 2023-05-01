@@ -3,7 +3,7 @@
 </p>
 <p align="center">
 <a href="https://packagist.org/packages/laralabs/toaster"><img src="https://poser.pugx.org/laralabs/toaster/version" alt="Stable Build" /></a>
-<a href="https://travis-ci.org/Laralabs/toaster"><img src="https://travis-ci.org/Laralabs/toaster.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/Laralabs/toaster/actions"><img src="https://github.com/Laralabs/toaster/actions/workflows/.github-actions.yml/badge.svg" alt="CI Status" /></a>
 <a href="https://styleci.io/repos/103109905"><img src="https://styleci.io/repos/103109905/shield?branch=master" alt="StyleCI"></a>
 <a href="https://codeclimate.com/github/Laralabs/toaster"><img src="https://codeclimate.com/github/Laralabs/toaster/badges/gpa.svg" /></a>
 <a href="https://codeclimate.com/github/Laralabs/toaster/test_coverage"><img src="https://api.codeclimate.com/v1/badges/24d1ca24be59a4952716/test_coverage" /></a>
