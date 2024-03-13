@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.0.1] - 13-03-2024
+- Laravel 11 compatibility
 ## [5.0.0] - 01-05-2023
 ### Changed
 - Laravel 10 compatibility
