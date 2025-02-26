@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         backupGlobals="false" bootstrap="vendor/autoload.php"
+         colors="true" processIsolation="false"
          stopOnFailure="false"
-         verbose="true"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false"
 >
-    <testsuites>
-        <testsuite name="Laralabs Toaster Test Suite">
-            <directory suffix="Test.php">./tests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-            <exclude>
-                <directory>vendor</directory>
-                <directory>tests</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="APP_KEY" value="aLwEwCKN58IdVrWv8GQv/XEN+1IEVmHxAxYS129S8oc="/>
-    </php>
+<testsuites>
+    <testsuite name="Laralabs Toaster Test Suite">
+        <directory suffix="Test.php">./tests</directory>
+    </testsuite>
+</testsuites>
+<php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="QUEUE_DRIVER" value="sync"/>
+    <env name="APP_KEY" value="aLwEwCKN58IdVrWv8GQv/XEN+1IEVmHxAxYS129S8oc="/>
+</php>
+<source>
+    <include>
+        <directory>src</directory>
+    </include>
+    <exclude>
+        <directory>vendor</directory>
+        <directory>tests</directory>
+    </exclude>
+</source>
 </phpunit>
