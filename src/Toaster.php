@@ -166,8 +166,8 @@ class Toaster
     /**
      * Add a message to the toaster.
      *
-     * @param $message string
-     * @param $title null|string
+     * @param $message    string
+     * @param $title      null|string
      * @param $properties null|array
      *
      * @throws \Exception
